@@ -1,3 +1,9 @@
 lc3; longest substring without repeating characters: 移动窗口，经典题目
 lc4: Median of 2 sorted arrays: 还是有点难度
 lc75: sort colors: 看起来就是普通的双指针问题, 但是有2个小点有点不好理解，有点难发现
+
+
+lc449: serialize & deserialize BST: 用的memcpy优化内存本质上是递归:
+        e.g. schema用preorderDFS, 做法是DFS
+        
+但是同样的方法为什么在lc 297: serialize & deserialize BT不行？
