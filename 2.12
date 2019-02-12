@@ -7,3 +7,13 @@ lc449: serialize & deserialize BST: 用的memcpy优化内存本质上是递归:
         e.g. schema用preorderDFS, 做法是DFS
         
 但是同样的方法为什么在lc 297: serialize & deserialize BT不行？
+
+
+lc870: 田忌赛马: 用一个set这样比较好选择A中大于B中的最小元素;
+set:  已排序: 可以用 upper_bound()(不包含), lower_bound()(包含)返回iterator进行迭代：
+(RB-tree)               要得到值用 *it
+
+unordered_set: 没有排序: 
+(hash table)
+
+tree vs hashtable: https://www.geeksforgeeks.org/advantages-of-bst-over-hash-table/
