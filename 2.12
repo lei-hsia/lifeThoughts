@@ -12,6 +12,7 @@ lc449: serialize & deserialize BST: 用的memcpy优化内存本质上是递归:
 lc870: 田忌赛马: 用一个set这样比较好选择A中大于B中的最小元素;
 set:  已排序: 可以用 upper_bound()(不包含), lower_bound()(包含)返回iterator进行迭代：
 (RB-tree)               要得到值用 *it
+set的子集有multiset: multiset也是自动排序的
 
 unordered_set: 没有排序: 
 (hash table)
