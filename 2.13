@@ -1,6 +1,8 @@
 324. wiggle sort: 偶数位上的数比两边的数都要大一些: 是把数组sort之后分成前后两半，每次分别从前半部分
-和后半部分的最后一个元素从后往前取,
+      和后半部分的最后一个元素从后往前取,
 
 215. Kth largest element in an Array: 本质上是quick sort, 但是partition函数是不是写反了???
 **复习quick sort**
 
+703. Kth largest element in a Stream: 实际上是流动的array: 用一个priority_queue或者multiset,
+      只保留最大的K个数，每次加进来都自动排序
