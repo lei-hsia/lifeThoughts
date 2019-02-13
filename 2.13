@@ -6,3 +6,5 @@
 
 703. Kth largest element in a Stream: 实际上是流动的array: 用一个priority_queue或者multiset,
       只保留最大的K个数，每次加进来都自动排序
+
+653. Two Sum IV: Input is a BST: 只要是两个数之和的题，一定都用哈希表来做
