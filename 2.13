@@ -11,4 +11,6 @@
 
 DS: 
 1. unordered_set<int> s:  只包含keys
+      s.count()返回值为1/0            
+      s.find() 返回值为iterator
 2. unordered_map<int, int> m: map key->val
