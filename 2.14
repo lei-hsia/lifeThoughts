@@ -1,0 +1,43 @@
+2.14 Valentine's Day, 今天刷题先刷two sum相关所有的:
+
+1.   Two Sum: LC开山之作, 因为array是无序的, unordered_map<int, int>m 存{num->index}的映射
+167. TwoSum II: Input array is Sorted: 因为是从小到大排好序的, 用双指针从两边向中间移动
+170. TwoSumIII: data structure design: 还是用unordered_map 设计这个ds
+(跟昨天的: 653: TwoSum IV: input is a BST)做对比
+
+跟two sum 相关的题目: 
+392. Is subsequence: 原题很简单, follow-up:有很多的s的时候,不能用双指针一个一个移动比较s和t中的
+    char了, 因为s很多, 那么首先建立一个hashmap, 把t中的char和这个char对应的出现的index的list建立
+    map映射关系; 这样在s中找的时候, t中直接就可以拿到index; s逐渐向后遍历的时候如果记录的拿到t中的
+    index逐渐增加,就表示可以匹配完全的s  (实际上还是不太好想的) :
+    ---为什么这样就AC了？ 
+    ---因为s很多但是t是给给定的, 所以遍历t没问题，之后s的char拿出来在hashmap t的value->index
+       中找的时候, TC是O(1)所以AC
+792. # Matching Subsequences: 跟392的普通scenario相同
+
+// 392. is subsequence: follow-up
+class Solution {
+public:
+	bool isSubquence(string s, string t) {
+		// char --> list of indices
+		unordered_map<char, vector<int>> hash; 
+		for (int i=0; i<t.size(); ++i) 
+			hash[t[i]].push_back(i);
+
+		int prev = -1;
+		for (auto c : s) {
+			auto it = hash.find(c); // find: returnType: Iterator
+			if (it == hash.end()) return false;  // map中首先要有这个char
+			auto li = it->second;
+			int pos = upper_bound(li.begin(), li.end(), prev)- li.begin();
+			if (pos == li.size()) return false;
+			prev = li[pos];
+		}
+		return true;
+	}
+}
+
+718. (DP) Maximum Length of Repeated Subarray: 实际上是LCS(Longest Common Substring): 
+dp不为0的地方, 都是A[i]==B[j]的地方: 因为LCS要完全匹配, 所以最后从头到最后的一位一定是相同的; 
+反之, 一旦选中的两个string最后一位不同, 前面怎么匹配相同都没用, 到这里相同的长度就清零了
+画一个dp的二维数组可以看出dp[i][j] = dp[i-1][j-1]+1
