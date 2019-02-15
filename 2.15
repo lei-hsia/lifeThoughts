@@ -26,3 +26,30 @@
    
     题目都是在DFS的helper函数中一开始写终止条件, 后面是for循环
     BUG: AddressSanitizer: heap-buffer-overflow: 表示的是数组index越界
+
+*********
+其实可以看出上面的level的本质是记录有多少个数被记录了, 达到个数的限制dfs调用就结束;
+Combination因为同样的数的不同排列算一种, Permutation算不同的, 所以:排列中的level参数应该从0开始
+** 但是从0开始有重复写入同一个数的可能: 用visited数组记录是否访问过 
+*********
+
+46. Permutations: (distinct numbers)
+                  之前的组合都是直接dfs递归调用, 递归的helper函数中for循环递归的地方helper的level参数从
+                  for中的变量开始加加(因为排列中的数不重复)
+    而这个全排列的问题, 可以用之前的dfs递归加上visited记录访问过没有避免从一开始遍历重复, 
+                     或者生成全排列之后不同的俩个数swap, 递归完全之后能得到所有结果,或者直接用STL的next_permutation
+
+// 错误写法: 因为一上来visited[i]=1, 那么后面的if判断永远都不成立; 
+// 改正:一上来判断如果visited是1就continue进行下一次循环, 否则表明visited是0, visited设为1再做后面的
+for (int i=0; i<nums.size(); ++i) {
+            visited[i] = 1;
+            if (visited[i]==0) out.push_back(nums[i]);
+            permuteDFS(nums, level+1, visited, out, res);
+            
+47. Permutations: (有duplicates的)
+
+1. sort()之后，相同的数一定连着
+2. nums[i]==nums[i-1]的本质: 相同大小的数字的不同排列should be considered as one permutation. 那么可以理解为，如果duplicates被选择了, 这些duplicates必须按照同一个之前规定好的顺序
+3. if (i>0 && nums[i]==nums[i-1] && !nums[i-1]) continue:表明当前的数和前面一个数相等, 前面一个数没有被选, 那么好，我就选现在的数了(选duplicates中排后面的数)
+4. if (i>0 && nums[i]==nums[i-1] && nums[i-1]) continue:表明当前的数和前面一个数相等, 前面一个数被选了, 那么好，我就不能选当前的数了(选duplicates中排在前面的数)
+5. 3和4两种情况都是continue, 因为不用做后面的事情了，都确定了(不管nums[i-1]被选没有, 都确定了选一个数)
