@@ -1,0 +1,28 @@
+718. Max Length of Repeated subarray: 接着昨天的, dp; 只要是dp[i][j]对应的包含整个数组的LCS，两个array最后一位一定相同
+      vector<vector<int>> dp(A.size()+1, vector<int>(B.size()+1, 0)); 加1是因为左边和上边最边界一个长度为0则LCS一定是0
+      dp[i][j] = (A[i-1]==B[j-1])? dp[i-1][j-1]:0; ->比较最后一位是否相同: 通项的上一位也是这样比较
+      
+   如果不是LCS而是longest common subsequence: 
+     初始化: dp[i][j] = max(dp[i-1][j], dp[i-1][j-1], dp[i][j-1]): 看左，上，左上三个的max;
+     递推: 除了看当前两个array最后一位是否相等, 还看:左边和上面的dp是否相等,不相等说明当前有一个数已经在之前的
+          subsequence中匹配过了, 就不能加了, 两个值相等的时候才能再加
+          if (A[i-1]==B[j-1] && dp[i-1][j] == dp[i][j-1]) ++dp[i][j];
+          
+# 从今天开始按tag刷呀~  从array开始，不跳，毕竟vector，而且这几天都在刷array
+
+77. Combinations: helper函数中有level这个参数，是因为不同的level/layer从哪个数开始选起很有关系： 
+                  因为组合的结果都是从小到大写的数字：开始选择的数字限制了后面可以选择数字的范围
+               
+   ***** 像这种要求出所有结果的集合，一般都是DFS递归调用求解(根据类似NN的图也可以看出是dfs) *****
+      helper一旦满足out满了的条件结束调用helper函数, 但是结束调用是在for循环中, 所以是会print所有的结果的
+                  
+39. Combination Sum: 因为可以有重复的数，所以helper函数中的level参数还是每次从i开始, i是for循环的初始遍历值
+    如果是Combinations中那样不重复的数的组合, 每个函数递归调用中的helper函数的level就要i++:
+    ACHTUNG: 
+    
+   **** 而且level参数实际上是index i, 并不是每一个具体的数; 
+   Combinations中直接out.push_back(i)是因为刚好那个array是自然数array, i也是具体的数;
+   这道题中就是 out.push_back(candidates[i])
+   
+    题目都是在DFS的helper函数中一开始写终止条件, 后面是for循环
+    BUG: AddressSanitizer: heap-buffer-overflow: 表示的是数组index越界
