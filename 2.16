@@ -27,3 +27,14 @@
      函数中, 每个j是在nums中的index, k是mod之后剩下的数
 
 ############ 31 & 60 都是有关permutation的好题
+
+40. Combinations II:
+      首先: vector去重的方法最有效的是用set:
+      set<int> s(candidates.begin(), candidates.end());
+      candidates.assign(s.begin(), s.end());
+      不能因为前后数字相同就去重: “每个数只能用一次”的意思不是不能有相同的数，而是这个数只能用一次
+      
+      RIGHT:
+      如果在先sort整个vector, 之后在for循环中往out中加数字的时候写一个if判断:
+      if (i > index && nums[i]==nums[i-1]) continue;
+      这样的效果就是并不去掉某些数字，但是相同的out排列结果是一样的，就可以避免out输出的结果是一样的了
