@@ -1,0 +1,27 @@
+昨天: 实际上 47. Next Permutation还不是很懂, if (i>0 && nums[i]==nums[i-1] && visited[i]==0)
+
+31. Next Permutation: 观察数的排列特征
+      1. 只要是in-place, 都是两个数swap
+      2. 从后往前找升序的排列，如果是降序的那么从前往后是升序的，就是OK的
+      3. swap之后因为从后往前是升序的，reverse这个序列
+      
+      for (int i = n-2; i>=0; --i) {
+          if (nums[i+1] > nums[i])
+            ...
+      }
+      这种结构会一进入for循环就判断是不是从后往前是升序, 如果后面的数比较大直接就不进入if那么for的i--
+      进入下一种i--之后的情况; 如果后面的数比较大, i一下就锁定了 
+      for里面一开始直接一个if相当于while
+      ### key: 关键: 从后往前看升序排列就前移, 降序排列就锁定
+      
+60. Permutation Sequence: 
+    n顺排自然数,取第k个结果; 我开始想的是
+    1. permutation全排列得到一串数组, 每一个out放在res中, res中的元素有k个的时候停止产生out拿出最后
+        一个元素转换成string: 不行, 因为全排列放在res中是无序的,不能保证第k个就是第k大的数
+    2. Next Permutation: sort得到最小的排列, next向下(k-1)次即可 
+    但是这两种思路都不好, 因为生成了太多的extra: 
+    其实是有直接一步到位得到第k个数的方法的:
+    Hint: n:有的数的个数, 有多少个数, 某个数在第一位的数集就有(n-1)!个
+    规律: a1 = n/(k-1)! k1=n%(k-1)!
+         a2 = k1/(k-2)! k2=k1%(k-2)! ... 
+     函数中, 每个j是在nums中的index, k是mod之后剩下的数
