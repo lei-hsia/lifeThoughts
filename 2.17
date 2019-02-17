@@ -39,9 +39,9 @@ if (target < 0) return;
             level是int,对应输入的string digits的index, digits[level]是取输入的string
             对应的char, 这个char减去'0'对应的index取到dict中那个按键对应可能的string
         3. char-->string: string(n_size, char);
-        
+*******        
 378. Kth Smallest Element in a Sorted Matrix: 一开始一看觉得是dp, 但是并不是, 堆可以做但是相当于作弊
-        不过先看看堆是什么: heap作为DS是一种完全二叉树, 尤其适合实现PQ优先队列;
+******  不过先看看堆是什么: heap作为DS是一种完全二叉树, 尤其适合实现PQ优先队列;
         最大堆: 树的根节点是整个数中的最大值, 父节点的值都大于子节点的值
         最小堆: 反过来; 
         1. PQ: Prim, Dijkstra, Huffman都用到了
