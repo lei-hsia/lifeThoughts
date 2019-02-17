@@ -61,7 +61,7 @@ if (target < 0) return;
                  
     ### 说明: 实际上求 k-th smallest element: 跟binary search求正中间的元素mid的差距就是,
              多了一步用count记录有多少个元素比当前元素小, 跟k比较(k对应k-th smallest ele),
-             从而来更新left/right找到k-th smallest
+             从而来更新left/right找到k-th smallest 
         
         
         
