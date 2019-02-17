@@ -67,7 +67,7 @@ if (target < 0) return;
         我感觉这道题的精华部分是用count记录当前的数是第几小的数，跟k比较从而更新binary search
         的左右边界. 这种同化成binary search的思路很值得借鉴呐，而且这样一来今后凡是碰到 
         k-th smallest/largest之类的，其实都是binary search的general case, 
-        除了用pq的方法之外的另一种方法
+        除了用pq的方法之外的另一种方法 
 ---------------------------
         
         
