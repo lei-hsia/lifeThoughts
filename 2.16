@@ -39,7 +39,7 @@
       if (i > index && nums[i]==nums[i-1]) continue;
       这样的效果就是并不去掉某些数字，但是相同的out排列结果是一样的，就可以避免out输出的结果是一样的了
 
-
+ 
 c++ 语法:
 1. argc(argument count): is int and stores #command-line arguments, including name of program
 2. argv(argument vector): is array of character pointers listing all arguments
