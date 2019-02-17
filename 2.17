@@ -22,3 +22,13 @@ if (target < 0) return;
      1. 并不用count参数记录out中放了多少个数, 因为out.size()反应的就是out中放了多少个数
      2. 没有必要 if(i>index && nums[i]==nums[i-1]),因为nums就是自然数1-9序列,不可能有
         跟前一个数相同的情况
+
+377. Combination Sum IV: 跟前面的combination都不同，这个限制最小可能的情况数量最多, 
+                        用dfs递归会TLE, 用dp
+     这题的本质实际上是"不受一步层数限制的climb stairs"
+     achtung: 1. dp[i] += dp[i-j]的前提条件是if(i > j), 因为首先那一层楼梯要在跨度之上
+        2. nums先排序; dp中的i如果小于nums中的数,直接break, 因为后面的nums的数更大,这样进行优化
+
+254. Factor Combinations: locked, 但是这种求所有的vector的一个大vector的所有可能的题，
+                          都是dfs/backtracking; 求所有的因子不包含1,n, 从2开始遍历,
+                          如果i能被n除就把i加到out中, out中的遍历从i 到 n/i
