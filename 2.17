@@ -1,0 +1,19 @@
+40.Combination Sum II, 通过昨天的例子, 可以看出:
+    sort()之后再 if(num[i]==nums[i-1]...)可以去重
+为什么 if(nums[i]==nums[i-1])可以去重？:
+因为 e.g. [1,2,2,2,5], target=5; 在代码: 
+if (target < 0) return;
+        else if (target == 0) res.push_back(out);
+        else {
+            for (int i = start; i < num.size(); ++i) {
+                if (i > start && num[i] == num[i - 1]) continue;
+                out.push_back(num[i]);
+                combinationSum2DFS(num, target - num[i], i + 1, out, res);
+                out.pop_back();
+                ...
+中, 首先会有[1,2,2], 此时target==0, res.push_back([1,2,2]), 
+然后最后一个2被pop_back()之后, 此时i++到了第三个2, 但是因为第二个2在第三个2前面,
+所以1, 第一个2, 第三个2的情况并不会加进去: 这就是sort之后的好处: 
+答案中有用相同的数构成的答案, 这种去重的方式保证用到相同的数的答案只会有一种情况,
+后面的就算 数是不同的, 数的大小相同得到的答案也相同
+    
