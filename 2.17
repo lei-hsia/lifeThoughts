@@ -32,3 +32,32 @@ if (target < 0) return;
 254. Factor Combinations: locked, 但是这种求所有的vector的一个大vector的所有可能的题，
                           都是dfs/backtracking; 求所有的因子不包含1,n, 从2开始遍历,
                           如果i能被n除就把i加到out中, out中的遍历从i 到 n/i
+                          
+17. Letter Combinations of a Phone Number: (还是前面的Combinations的变种)
+        1. 存这些短string不用map, 因为数字2-9实际上只是index, 那么存到array中
+        2. dict[ digits[level]-'0' ]: 
+            level是int,对应输入的string digits的index, digits[level]是取输入的string
+            对应的char, 这个char减去'0'对应的index取到dict中那个按键对应可能的string
+        3. char-->string: string(n_size, char);
+        
+378. Kth Smallest Element in a Sorted Matrix: 一开始一看觉得是dp, 但是并不是, 堆可以做但是相当于作弊
+        不过先看看堆是什么: heap作为DS是一种完全二叉树, 尤其适合实现PQ优先队列;
+        最大堆: 树的根节点是整个数中的最大值, 父节点的值都大于子节点的值
+        最小堆: 反过来; 
+        1. PQ: Prim, Dijkstra, Huffman都用到了
+    ### 虽然用PQ相当于作弊, 但是这样用c++本身封装好的API priority_queue让我明白了:
+    ### 凡是这种求 K-th Smallest/Largest element in a sorted xxx, 都可以用PQ
+        c++ : vector: front()返回的是第一个ele的reference; 
+                      begin()返回的是一个iterator
+              queue: 有front()
+              priority_queue: 有top()
+        2. 用binary search: 从左下方开始,因为最可能是中间的值, 找到最大值和最小值的mid, 
+           看小于等于mid的数有多少记为count, count跟k比较逐渐缩小范围得到最后k-th smallest
+    ### 说明: 实际上求 k-th smallest element: 跟binary search求正中间的元素mid的差距就是,
+             多了一步用count记录有多少个元素比当前元素小, 跟k比较(k对应k-th smallest ele),
+             从而来更新left/right找到k-th smallest
+        
+        
+        
+        
+        
