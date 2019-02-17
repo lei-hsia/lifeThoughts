@@ -51,6 +51,7 @@ if (target < 0) return;
                       begin()返回的是一个iterator
               queue: 有front()
               priority_queue: 有top()
+--------------------------
         2. 用**binary search**: 从左下方开始,因为最可能是中间的值, 找到最大值和最小值的mid, 
            看小于等于mid的数有多少记为count, count跟k比较逐渐缩小范围得到最后k-th smallest
            
@@ -63,7 +64,11 @@ if (target < 0) return;
              多了一步用count记录有多少个元素比当前元素小, 跟k比较(k对应k-th smallest ele),
              从而来更新left/right找到k-th smallest 
         
-        
+        我感觉这道题的精华部分是用count记录当前的数是第几小的数，跟k比较从而更新binary search
+        的左右边界. 这种同化成binary search的思路很值得借鉴呐，而且这样一来今后凡是碰到 
+        k-th smallest/largest之类的，其实都是binary search的general case, 
+        除了用pq的方法之外的另一种方法
+---------------------------
         
         
         
