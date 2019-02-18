@@ -1,0 +1,89 @@
+其实今天是想做hash table的, 不过先把前面遗留的题finish
+
+754. Reach a Number: (本质上是一个数学问题)
+    1. target镜像对称: 正负类似, abs()变为只考虑正的情况
+    2. 得到累加值sum之后若sum超过target且差值diff为偶数, 那么在diff/2的那一步把正向走改为负向走就行了;
+    3. diff为奇数, 那么(n+1)步若是奇数加上(n+1)之后现在的差值就是偶数,回到2的情况, RET.OK;
+                      (n+1)步为偶数, 那么当前的奇数diff要加上(n+2)步的奇数之后diff才能为偶数, 所以
+                      要加2步
+     
+113. Path Sum II: 之前做过的, BT的root到leaf的路径和等于某个sum; 第二次做发现要注意一个问题:
+     问题: dfs中每次都是先把当前node->val加到out中, 再判断当前node是否为叶子并且到此node的pathSum满足;
+     因为判断一旦成立那么当前的out应该加到res中了, 所以判断之前就要加入进来当前的 node->val
+     *******   
+     BT: 只要是递归, 都是node往left和right两个children方向递归
+    
+149. Max Points on a Line: 
+      1. 求斜率, 用最大公约数实现:建立一个哈希表, 是点的坐标的GCD对这样的点的个数的映射;
+          unordered_map<pair<int, int>, int> map;
+     2. for循环遍历每一个点, 建立这个点对应的GCD pair对应包含duplicate的同一条直线上点集数目的映射;
+     for (auto it=m.begin(); i != m.end(); ++i)
+        res = max(res, it->second + duplicate);
+     **** 在最后这个for之前: 
+     3. res = max(res, duplicate); 这是因为: 选定一个点, 可能根本就没有跟这个点同一条直线上面的点;
+        那么此时的结果应该是1,就是当前的点--这样保证了res至少是1; 
+       ### 否则的话直接在最后一个for循环中对hashmap的迭代器变化: 如果前面就只有这一个点的话，
+           哈希表中因为并没有成比例缩放的同一条线上的点, 所以这个for循环得到结果为0; 
+           前面的res = max(res, duplicate) 能保证res结果至少为1
+    4. 最大公约数的点集，哈希表中的pair为什么是用dx, dy建立的而不是用某一个点的x, y? 
+        因为如果两个点就是成比例缩放的, 那么{x1, y1}, {x2, y2}是会在同一个map的key下面的;
+        但是如果两个点不是同一条直线的, 那么这两个点就不好判断了;
+        用差值dx, dy实际上是得到了两个点之间的矢量, 那么同或者不同缩放就很好看出来了,
+    5. 
+       前一个for循环是产生哈希表的共线点集集合,后一个for循环是遍历存下来的每个点可能共线的点集的个数;
+********
+三点共线最优解法: 判断面积是否为0; 这里的 (AC X BC)是两个矢量的叉积: 
+area(ABC) = 1/2 * ( AC X BC )  = 1/2 *((ax-cx)*(by-cy)-(bx-cx)*(ay-cy))
+********
+
+--------------------------------------------
+这类的Binary Search题目要多想: Find Minimum, Search in: a Rotated Sorted Array; I, II
+
+153. Find Minimum in Rotated Sorted Array: 如果遍历数组 O(n)肯定没有意义, 那么就O(lgN): BS
+     其实这道题说rotate, 但是怎么rotate的是很奇怪的; 理解成两段从小到大排列的数, 找最小的数
+     旋转之后: 第一个数刚好比最后一个数大1; 所以如果第一个数小于最后一个数, 说明没有旋转
+*****
+    通过这道题发现, 不同的BS的题还是要用例子来检验: 
+    统一一下: while(left < right), 最后的条件对应的是: left=mid+1; 但是这个应该写在最后面,
+    前面的是right=mid; (就是二分查找)
+        
+154. Find Minimum in Rotated Sorted Array II: 跟上面一样用二分查找, 但是为了避免大量重复的
+      数字导致指针不能动了: 如果nums[right]==nums[mid], right指针左移一个; 避免二分指针没动
+   
+   // 注意: 这个思路能找到整个array的最小值,但是不一定能找到pivot对应的index!!
+   // e.g. [1,1,1,1,2,1,1]最后返回的left=0, 并不是pivot,
+   // 添加: right--的条件要复杂一点: if (right && nums[right]>=nums[right-1]) right--;
+   // 这样能保证right即使左移也会卡在pivot对应的那个数的地方, 不会再往左移到数组最大值了
+   
+   int findMin(vector<int>& nums) {
+        if (nums.empty()) return 0;
+        int left = 0, right = nums.size()-1;
+        while (left < right) {
+            int mid = left + (right-left) /2;
+            if (nums[mid] < nums[right]) right = mid;
+            else if (nums[mid] == nums[right]) --right;   // else if(right != 0 &&nums[r]>=nums[r-1]) --right;
+            else left = mid+1;                            // else return nums[right];
+        }
+        return nums[left];
+    }
+
+########### 关键在, rotated之后, 还是有一半的部分是完全sorted的;
+###########        此时如果target就在这半段里面就可以binary search
+
+33. Search in a Rotated Sorted Array: 比上面的两题稍微多了一点弯: 因为二分查找的关键是获得了中间的数之后,
+     判断接下来是搜索左半段还是右半段, 跟target直接相比是没有意义的; 如果没有思路就把中间的数拿出来, 观察左右
+     半段在各种旋转情况下的规律; 中间的数是肯定要跟左端点或者右端点的数比较, 不能跟target比较
+     e.g. 0,1,2,  4,5,6,7
+          7,0,1,  2,4,5,6
+          6,7,0,  1,2,4,5     可以看出, 
+          5,6,7,  0,1,2,4     如果中间的数小于最右边的数==>右半段是有序的
+          4,5,6,7,  0,1,2
+          2,4,5,6,  7,0,1     如果中间的数大于最右边的数==>左半段是有序的
+          1,2,4,5,  6,7,0
+     一旦知道数组是有序的,并且target在有序段端点值之间, 就可以在这段有序的数组中用二分查找找target
+    #### 只能对sorted的那一半用二分查找
+    
+ ACUTUNG!!!
+    1. binary search只要出现TLE, 就是左右边界赋值的时候直接相等了而没有+-1, 指针就不动了
+    2. 只要是有类似dfs的, 终止/退出/获得一个结果的条件都是写在递归/判断上面的,这样下次递归的时候一开始直接看是不是的
+    
