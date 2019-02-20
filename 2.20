@@ -1,0 +1,26 @@
+为了加快进度, 今天不做greedy, resume back:
+
+49. 第二次: Group Anagrams: 用一个map, key是一串每一个数表示char数量的string, value是anagrams
+    一开始是想的key是char，value是#char, 这样的话anagrams联系不上去, 而且KV对没有意义
+    
+    ⚠️注意: 因为每个str对应的count数组都是不同的, 所以count数组的初始化应该在 for(str) 循环体内
+            同样的, 配套用的key countChar也应该在for循环体中
+    其实是想得到一个string, string的每一位记录了char出现的次数; 这里的数组是起一个过渡作用
+    
+840. Magic Squares In Grid: 
+  huahua's 思路:
+    1. 用原函数numMagicSquaresInside用来遍历整个grid, ans记录 #满足条件的grid, 满足就++
+    2. magic 这个helper函数检测对每一个左上角确定的grid是不是满足条件的
+    
+  ⚠️注意:
+      在检测函数 numMagicSquaresInside的潜逃for循环的函数体中, ans += isMagic(grid, j, i);
+      在helper函数中, v = grid[y}i][x+j]: 
+      ===> 都表明了实际上 y是和i, x是和j联系在一起的, 因为每个点的纵坐标变化实际上是行数,横坐标变化是列数
+      
+605. Can Place Flowers:
+     0/1数组多个1不能相邻的问题: 就遍历这个数组然后看当前index位置前后的数是不是没有1就行了,
+     边遍历边更新当前的值; 放一个就在n里面减一个直到遍历完看n是不是减到了0以下
+     
+     🆗更好的方法: Grandyang: 通过计算连续0的个数直接算出能放花的个数, 比如连续0有k个两边是2个1,
+     那么可以放(k-1)/2个花;(可以尝试);但是如果首位或者末尾是0的时候, 要在首位前面加上1个0或者末尾
+     后面加上一个0, 这样就满足了k个连续0放(k-1)/2个花
