@@ -1,0 +1,69 @@
+昨天的Can place Flowers的优化: 不用遍历每个元素的时候添加 prev & next(2N), 
+直接遍历一遍并且只用记录连续0的个数就OK了
+附: 在首位添加只能用insert(position_iterator, val)因为没有别的方法, 
+    在末尾添加有push_back()这个built-in的方法;
+    vector v.front() VS v[0]: front()是generic的方法: 因为list也有这个方法, [0]是vector特有的subscript方法
+
+495. Teemo Attacking:
+    其实不用那么💭考虑最后一位: 最后一位总是加上duration,<--遍历的时候不带最后一位;
+    for (int i = 1; i < n; ++i)...  最后一位直接 + duration
+    
+735. Asteroid Collision: 
+    vector的push_back方法push到back的位置是vector的最右边,所以如果push进来的是正数就直接OK
+    ⚠️注意: res中是小正数, 现在push进来大负数的时候正数被pop_back(), 
+    ＊＊ --i这个操作并不影响asteroids数组中的元素, 所以这个大负数又会重新push进res一次看前面还
+        有没有小负数继续碰撞💥(for循环针对的还是不变元素的asteroids数组)
+        (本质上--i是为了继续拿这个大负数重新push进res看会发生什么)
+        
+*********** 经典的greedy: Interval Scheduling
+56. Merge Intervals:
+    sort的用法: default: template <class RandomAccessIterator>
+                        void sort(RandomAccessIterator first, RandomAccessIterator last)
+        自定义:
+            template <class RandomAccessIterator, class Compare>
+            void sort(RandomAccessIterator first, RandomAccessIterator last, Compare comp);
+        用lambda函数自定义完成sort的comparator之后就可以直接比较了, 如果把interval类型中的两个元素拆开
+        反倒不好看了
+这道Merge Intervals实际上不难
+
+和这道题类似的题目: 
+435. Non-overlapping Intervals: 几乎是相同的, 如果有重叠部分的intervals中的元素, 
+    为了保证去掉的数目最小, 删除interval就删除end值大的一个(因为这个后面一个和再后面一个
+    又有可能overlap了)并用last指向end值小的那个区间; 但是并不是真的删除(费时), 
+    这个int类型的变量last本来每次都是指向上一个区间, 由前面那样更新  
+    
+57. Insert Interval: 我想的: 先插入一个interval, 再merge可以merge的::==>但是越界了???
+    Grandyang: 因为newInterval相当于是独立intervals中所有的interval之外的, 所以还不如
+              单独处理: 只要用重叠的地方就把newInterval变成最大range的那个interval, 直到
+              newInterval和intervals所有其他的元素都不重叠:剩下的部分可以直接加了
+***********  上面三道题很类似，但是每个都稍微有一点不同
+下面的是greedy的所有的Easy:
+122. Best time to Buy and Sell stock II: 就是遍历数组,相邻的两个数后面减前面累加正数差
+(121. Best ... I): 只能一次transaction,其实只用遍历一次(不用先遍历一次找最小值再遍历一次做差),
+                   遍历这一次边记录最小buy值, 然后更新res=max(res, price-buy)
+                   
+(虽然是easy但是对循环和多个变量的用法要熟悉)                   
+455. Assign Cookies: 
+        for循环中要用到另一个变量res记录满足的child的个数, 因为for的循环变量是i, 那么不能对i自增,
+        即使这里的i数量上跟"content children"数量是相同的
+        ⚠️注意: for循环中只有size>greed的时候才更新res和greed数组的index, 另外的情况不处理, 刚好for的i++
+    而且这道题实际上是返回content children的数量并不是返回是否满足所有的children, 所以用res并不遍历完返回bool
+      注意⚠️: 实际上是可以把满足的children的个数和g数组下标综合在一起的:  j变量记录满足的个数,
+          j在变量为i的for循环中, 满足size>greed的时候 ++j (因为for只处理i)
+(这道题的greedy的精髓在于, sort之后总是想用最小的可能满足greed的size去满足child)
+
+********
+860. Lemonade Change: $5, $10, $20: 实际上跟之前碰到过的coin change类似 
+这道题的greedy的精髓在于, 如果是$20,那么找给对方$10+$5总是比找3个$5好, 因为2*$5总是比1*$10好
+当计算需要花费多少个$5出去之后, 如果$5的数量变为了负数，表明由现在手上的5根本不可能满足每一个人的
+change的需求: return false.
+********
+
+
+
+
+
+
+
+
+    
