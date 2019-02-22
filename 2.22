@@ -1,0 +1,57 @@
+接着昨天的greedy的easy然后进入medium;
+** greedy的精髓在于, 在不违反规则的情况下, 尽可能多地做某件事情
+
+984. String without AAA or BBB: greedy的精髓在于, 在没有AAA或者BBB的情况下, 交替添加a和b, 
+     哪一个多就一回添加两个，否则一回添加一个
+     
+****
+134. Gas station: 其实顺序是配对的: station i的gas和cost分别是gas[i], cost[i],
+      这道题题意的解释不好:强行想成先单独的gas[i], 再 -cost[i]+gas[i+1], 但是还是应该按照自己的想法
+      
+    ⚠️注意: 实际上这道题只需要从头遍历一次: 一个total记录总的gas量和cost量, 如果gas<cost那么肯定不能
+    跑完了; 一个sum记录从i=0开始到当前的节点i,剩下的gas+gas[i]-cost[i]是不是非负数, 如果是负数,说明
+    “从头到当前的节点中间的任意节点都不能作为起始节点,从下一个节点开始”: 这是因为, 起始节点出发的gas是肯定
+    大于cost的, 但是到当前节点仍然有gas<cost,说明从起始节点的下一个节点到当前节点中间的节点的累加一定是
+    负数(而且这个负数的绝对值大于起始节点的存余gas量); 那么从起始节点到当前节点之间选一个节点作为起始节点
+    肯定是不行的, 所以最前面可能的节点都是当前节点的下一个节点;
+        1. 一遍遍历完成之后, total的值表示了gas和cost的净值是不是非负数, 决定了能不能cover整个路程
+        2. sum表示了从起始节点到当前节点的gas累计净值, 同时的start表示了应该是哪一个起始节点
+        
+    🌿🆗⚠️: 遍历到index i, 蕴含了从头到这个index的这个过程的信息
+    
+376. Wiggle Subsequence: 
+      这道题的greedy在于, 一旦前一对数的差为正或者为负确定了,那么下一个一定是相反的符号, e.g. 
+      下一对数是"小,大"的顺序,那么这个大数的后面, 即使来一堆更大的数使得接下来的差都是正数,也没用,
+      因为符号要相反, 所以并不影响当前的结果: 这个index会一直走到某一个i, i这个位置的下一个数和
+      这个数的差一定又重新变为了负数: 这种一旦是正数就会一直后延直到再回出现相反符号差, 中间不管是
+      什么情况: greedy;
+      如果用两个vector记录结果每个结果跟index相关, 就变成了dp
+    
+      1. 注意并不能max(nums.size(), max(p,q)), bug: no matching function for call to 
+        'max(std::vector<int>::size_type, const int&)', 也就是说max() 函数中的两个变量类型必须相同
+      2. 所以只能int n = nums.size(); max(n, max(p, q))
+      
+392. Is subsequence >>> 用for循环只循环遍历s可以, 为什么用while遍历s和t就不行了???
+-------------------
+⚠️⚠️⚠️注意: greedy:: **用stack求原序列中不改变相对顺序的最小子序列**
+从前往后, 要求前面用存在的最小的数作为这个string的开头: 
+        用stack可以直接添加,比较res最后一个元素和下一个待添加的元素的大小
+    包括[402. Remove K Digits; 316. Remove Duplicate Letters; 321. Create Maximum Number]
+-------------------
+402. Remove K Digits:
+      用上面的思路: "用stack求原序列不改变相对顺序的最小子序列": 
+      用stack可以把前面一堆最小的数拿出来(后面也是), i.e. local minima
+     唯一需要注意的地方是: 如果原本序列就是只有一位,那么这个while用stack搞不定,所以需要res.resize(keep);
+          1. vector.erase(iterator_a);
+          2. vector.remove(Iterator first, Iterator last, const T& val);
+      
+
+
+
+
+
+
+
+
+
+
