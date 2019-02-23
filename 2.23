@@ -1,0 +1,26 @@
+接着昨天的: 用stack求原序列不改变相对顺序的最小值子序列
+
+316. Remove Duplicate Letters:   c++ replace(pos, 替换前的str_len, str1, (pos', len'))并不对应java的replaceAll()
+     greedy: 从左向右找, 找到能够选的最小的char, 能选的意思是"右边仍然包含了这个string所有的不同的letters";
+             如果右边并没有包含当前遍历到的letter说明这个letter是从左往右最后一个了, 那么greedy找最小的letter
+             已经不能再往右了--即使这个letter并不是可能最小的: 因为再往右作为starting letter那么当前的letter
+             就不能包含了;
+         
+         java: recursive:
+         确定最左边的letter(对应的位置是pos)之后, 右边的所有跟现在的pos相同的letter都可以去掉了因为已经出现在res
+         所以遍历不用看了; ⚠️注意: pos这个起始位置的letter和因为只出现一次break循环的letter没有关系
+         
+     但是c++并不能用STL利用replace的性质, 并且实际上用visited数组实现的就是replaceAll的功能; 
+     还是用stack的思路: 如果visited记录当前的字母访问过了那么继续下一轮循环,因为访问过就表示res中
+     已经有了当前的字母并且位置安排妥当(因为是一个loop); 如果没有visited,现在的字母比res最后一个小
+     并且res最后一个字母在s后面还有就可以用当前的字母替换res的最后一个;如果res最后一个字母在map中为0了
+     说明后面没有这个字母了, 就不能pop_back()
+     因为前面visited使得res中同样的字母只会有一个, 所以while一旦弹出了最后那个字母那么这个字母对应的visited改为0;
+     而且⚠️注意要先visited[res.back()]=0, 如果先弹出那么改为0的不是这个弹出的字母对应的visited了
+     tip: res中首先加一个0方便第一轮比较，因为0的ASCII小于任何字母所以s走完之后0还是在最前面,去掉即可
+     
+321. Create Maximum Number: 只要是数组保序重组: 用stack
+     同一个array的order要保证: 那么两个array先后往stack中加, 各自的相对顺序是可以保证的
+     
+     但是Grandyang的解法看不懂啊...???
+     
