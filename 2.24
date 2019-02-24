@@ -1,0 +1,44 @@
+晚一点再做昨天没做完的321.Create Maximum Number
+
+今日: 
+738. Monotone Increasing Digits, 322. Coin Change 之后回归greedy
+---------------
+738. Monotone Increasing Digits: 找到最后一个从后往前值升高的位置==> ✅让前一位减1(-1)就行了!
+                                  因为后面的数都改成为9, 并不是前一位要一直减小到小于后面一位
+    for循环中直接 --str[i]; // 是char类型直接减减,并不是int类型减减, 但是char的ASCII直接减减结果也是对的
+    (Freitag: java做题的看出, char+int类型可以直接按照ASCII相加, 但是加string类型就不同)
+    
+322. Coin Change: 一开始思路错了: sort coins数组从后往前greedy尽可能用大额的:
+                  ❌漏洞:有可能用小额的可以拼成但是大额的拼不成了
+     既然不能greedy而且是求极值的问题: 
+     1. ✅dp: 状态转移方程用举例子的一般情况获得🉐️
+     dp[i]所有值初始化用amount+1这个达不到的值是为了起到INT_MAX的作用
+     =====> 
+     2. 除了dp之外的dfs的思路迭代解法也应该掌握: dfs还是dfs调用函数之前写终止条件,dfs递归和取min是分开的
+     3. 还有sort之后类似greedy的剪枝方法
+    但是还是dp的方法最好 
+
+518. Coin Change2: Grandyang的二维dp数组反倒不好理解:二维递推中的i是需要 #coins, 但是这个量实际上无关;
+    ==> ✅: 实际上可以一维dp, dp[i]表示钱数i的不同组合方法
+    一维dp注意for循环的嵌套顺序: 应该是对每一个coin,计算不同钱数状态下的dp数组: 因为有的coin才能作为dp
+    跨步的间距; 相反,如果各个不同的amount作为外层for而内存用已有的coin面额,递推会有不等长缺口和间隔: 不对
+    
+406. Queue Reconstruction by height: 
+    ✅:
+    简单方法: 首先按first从大到小的顺序sort,第一个数相同第二个数大的在后面; 再遍历元素把元素插到second对应的位置 
+            因为是queue, first小的数最后处理, 反倒排到前面: 用到了queue的特征
+            并且因为是排序,用到了a.second对应的元素的index永远不大于second的值
+       sort(iter.begin(), iter.end(), [](const 参数列表) {... ;})
+   c++: std::pair::pair: 是一个member field: 用pair创建一个object
+   
+452. Minimum # Arrows to burst Balloons: 
+    默认的对于 pair<类型1, 类型2> 的排序, 就是按第一个数升序; 第一个数升序就按第二个数升序
+    排序之后就保证最前面的index是整个数组的最前面, 就只用管第一个区间的结束位置了
+    此时就只用管来的区间的start了; 如果是小于已知区间的end的那么不用增加弓箭🏹️数量,不过end要取其中
+    较小的数; 如果大于的话 增加弓箭数量并且end要更新为新的区间的end
+    ⚠️注意: if(points[i].first <= end)是可以等于的, 因为此时确实是可以一箭就行，并不增加弓箭数量,
+      此时很显然end会保持不变; 只不过之后再来新的更大的区间就一定会有 ++res了
+      
+621. Task Scheduler: 一开始想用unordered_map来看一轮用的时间,>=n最好小于就idle补: 但是是不行的;
+      因为每个task的数量不同所以最后数量最小的先没有, 那么每次完全完成一个任务都要重新算: 这个思路不好
+      
