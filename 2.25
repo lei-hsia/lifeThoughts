@@ -20,8 +20,26 @@
       
 714. Best time to Buy and Sell stocks with a Transaction Fee:
      Grandyang: 这道题和122. Best... II最像, 但是那题没有交易费所以可以无脑greedy:
-122. Best ... II: 无脑贪婪,具体表现为总是求 nums[i]-nums[i-1]: 因为并没有限制同一天不同交易次数大于1,
+  122. Best ... II: 无脑贪婪,具体表现为总是求 nums[i]-nums[i-1]: 因为并没有限制同一天不同交易次数大于1,
       所以只要那一天先sell再buy就行了; 所以相邻元素做差就行了;
-  714. 因为有transaction fee所以不能无脑卖, 不能直接做差加全部的利润: 所以必须要用dp处理(因为每天状态可变):
+   714. 因为有transaction fee所以不能无脑卖, 不能直接做差加全部的利润: 所以必须要用dp处理(因为每天状态可变):
       sold[i]表示第i天卖出得到的利润(那么i-1天肯定有stock不然没东西卖), 
       hold[i]表示第i天买入, 利润是昨天卖出了，今天再买入，差值为利润
+      最后返回的是全部股票卖出之后套现在手上的利润, i.e. sold.back()
+      
+763. Partition Labels: 关键是记录每一个字母最后的index; 当前的substring中一旦有这个字母:至少要到最后一个字母的index:
+       1. map: 记录每个letter最后出现的index
+       2. 遍历S, 当前substring的头尾分别用start, end记录
+       3. 遍历当前字母，通过map获取这个字母最后出现的位置, end被更新为至少到这个位置
+       4. 遍历的index==end说明到目前为止的所有字母都在当前substring中了: 找到一个断点
+       
+767. Reorganize String:
+       1. 按字母顺序排序: 相邻字母相同就后面找到第一个不同的字母和这个字母交换; xxxla: 跪, 因为一排序x到后面去了
+       2. 应该按字母出现的次数排序: 出现次数多的字母排在前面,这样交换后面的和前面很多的字母才能隔开前面的字母;
+       3. 最大堆和最小堆在c++中都是pq实现的: 最大堆:树的父节点总是大于等于任何一个子节点的值, 最小堆相反
+       4. pq直接push pair类型的元素, 排序首先是根据第一个元素的大小的, 第一个元素大的在前
+       
+ ##### 
+ Task Scheduler && Reorganize String其实非常类似;
+ Partition Labels 很好
+ Split Array into Consecutive Sequences: 顺子, 用两个哈希表记录, 非常巧妙的思路
