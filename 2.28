@@ -1,0 +1,67 @@
+复习: 720. Longest Word in Dictionary: 从短到长排序遍历, 最后一个就是最长的单词
+
+## 这个是一个hard但是实际上用最简单的思路反倒最有效:从前往后遍历碰到不是couples的就交换变成couples ##
+765. Couples Holding Hands: 其实就从前往后交换就行了: 交换是为了得到couples否则没有意义;
+    前面都成对的话，最后一对也是成对的::==>⚠️###而且这种方法一定是交换次数最少的###
+    外层循环的i因为是对应每个pair, 所以i每次都是加2
+    trick: 成对的数, 两个数中一个数和1异或就得到另一个数:二进制最后一位0^1=1, 1^1=0
+
+389. Find the Difference: 
+      1. 自己想的是先排序再遍历找到不同的但是实际上没有必要,因为排序的overhead太大
+      2. XOR: s,t相同字母相当于一共出现了两次
+      3. ASCII sum: 跟XOR遍历s和t类似,只不过操作变为＋而不是^
+-----------
+NEWEST:
+997. Find the Town Judge: 自己觉得思路没有问题但是做错;
+(图)    这道题实际上是graph: 每个pair看作是graph里面的两个相连的点的pair; 用一个辅助数组存储遍历途中的结果
+    
+998. Maximum BT II: 
+(树)   首先参见  654. Maximum BT I:  构造树:都是递归构造; 因为参数是数组, 获取数组, 再构造树
+        因为树根节点是最大值，所以数组一定是 "小－大－小"的结构
+        因为是构造树, 所以有: TreeNode *node = new TreeNode(x)
+        initialize from another array: vector<int> vec2(vec1.begin(), vec1.end());
+>>>> 这道题, 之前的A数组还是"小－大－小"的顺序; (假设A已经构造好了)
+        1. 如果新插入的val < root.val, 那么不影响之前"小－大－小"的顺序,变化就是右边多了一个节点,那么右边重新递归就完了;
+        2. val > root.val: 由Maximum规则,此时val最大应该当作root, 所以之前的A树当作此时val作root的left子树即可
+   迭代的思路: ⚠️⚠️: 其实要看清一点: 新插入的val因为是在右边, 所以要么作为root要么就在右边, 不可能取左子树;
+         1. 如果val最大要作为root, 直接写
+         2. 如果val应该放在右子树中, 找到cur->val > val > cur->right->val的地方,val作为cur的右子树,
+            之前的右子树作为val节点的左子树
+            
+999. Available Captures for Rook:
+(dfs)  这种棋盘的问题,都要从当前位置(先要获得)朝四个方向出发进行遍历,所以简单的方法一定是bfs递归调用本身的函数
+       rook(車)只能横纵方向移动;而且这里问的"pawns can capture":能捕捉到的, 并不是一定要捕捉(否则最多一个)
+       主函数中找到R的位置递归bfs捕捉函数, 捕捉函数中先move到下次的位置再判断是不是应该加1; 一旦是p就return 1累加起来
+  为什么主函数中嵌套的for循环有return但是外面还是要写return 0 ? 因为可能进不去if判断所以就没有return了但是必须要有return
+  
+1001. Grid Illumination: 类似N-Queens: 
+##########
+    用python做; 参考了2017111303的python:website: buptwc.com
+>>>>首先: python的三个高效处理list的函数式编程函数: map(), filter(), reduce()
+    map用的最多: API: map(func_to_apply, list_of_inputs)
+    e.g. items = [1,2,3,4,5]              items=[1,2,3,4,5]
+         squaredd = []            等价于:  squared=list(map(lambda x: x**2, items))
+         for i in items:                      # lambda匿名函数作用在传递的list参数上,再返回列表
+            squared.append(i**2)      
+    2017111303的code: 
+      from collections import Counter  # Counter是用作hashmap的
+      lamps = list(map(tuple, lamps)) # lamps先变成tuple再变成list
+    # Counter的用法:
+        >>> myList = [1,1,2,3,4,5,3,2,3,4,2,1,2,3]
+        >>> print Counter(myList)
+        Counter({2: 4, 3: 4, 1: 3, 4: 2, 5: 1})
+   python dict: pop(), del(), remove()
+    pop(): RETURN the removed element
+    del(): remove element BY INDEX
+    remove(): remove FIRST matching value in list
+##########
+   类似 N-Queens的题目: 处理对角线的方式: 
+    在同一条左斜线上的点，方程式都形如x+y = c，也就是他们的坐标之和相等
+    在同一条右斜线上的点，方程式都形如y = x+c，也就是他们的坐标之差相等
+这道题的思想: 就是灯是亮的就存起来, 之后query取的时候如果这里是亮的, res就是1,否则是0  
+       ⚠️⚠️! 存起来的时候是存的亮的灯，但是query的时候并不是亮的灯才是1,而是是亮的就是1 !! ⚠️⚠️
+            query查完之后移除的也是附近的灯！并不是附近亮的地方; 因为移除的灯是包括自己本身的灯
+            的九宫格内所有的灯，所以(dx, dy)==(0,0)是可以的
+     删除dict中的pair的for循环应该在query的for循环内部嵌套: 因为查询完之后就应该删除这个点,是一体的
+        
+        
