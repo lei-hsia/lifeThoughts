@@ -43,7 +43,35 @@
     只验证已经filled的部分:就看当前行，列，小方阵中有没有出现过当前数字
     这种方阵图的题都是要用二维数组记录每个grid的状态，overhead比较大，但是并不难
 
-
-
-
-
+37. Sudoku Solver: N-Queens的变种
+======================================================================
+51. N-Queens:                       available(x, y):
+      pseudocode:                      return !col[x] and !diag1(x,y) and !diag2(x,y)
+   n_queen(y, n, b, ans):
+      if y==n:
+        ans += b
+        return
+    
+      for x in range(0, n):
+        if not available(x, y): continue
+        put(x, y, b)
+        n_queen(y+1, n, b, ans)
+        remove(x, y, b)  // 递归结束都是要清空之前每个Queen对列对角线的影响,进行下一次递归
+        // 下次递归的意思是, 整个棋盘上已经找到一个解了所以全部清空: 因为这里由y-->y+1之后会
+        // 继续递归->y+2...直到棋盘满; 
+     Grandyang的写法中:
+     1. DFS中的else表示遍历每一行的一般情况; if (isValid(pos,row,col)) pos[row]=col; valid的时候说明
+        当前行的col是可以放Queen的, pos[row]=col记录当前row对应的col; 所以在 if(row==n) for... out[i][pos[i]]='Q';
+        在行数为n的时候已经出了棋盘说明找到一个解; i是行数, pos[i]是列数
+     2. DFS else{ pos[row]=col; solveNQueensDFS(pos, row+1, res); pos[row]=-1;}
+        最后这个在for循环中的 -1 是把所有行之前摆好的Q都清除掉了, 进行寻找下一个解;
+     3. isValid函数: 之前由: pos[row]=col; 用col记录了前面各行放置的Q所在的列;
+        isValid函数中: for(int i=0; i<row;..)
+                        if (col==pos[i] || abs(row-i)==abs(col-pos[i])
+             ==> 1. col==pos[i]: 当前行放置Q是col列; 从0遍历到上一行:不能有跟当前行的列col相同的列;;如果有返回false;
+             ==> 2. abs(row-i)==abs(col-pos[i]):
+                    当前行数是row想在col列放Q看行不行; 之前用pos[row]=col已经记录了每一行的Q应该放在那一行的col列;
+                    i从0到(row-1)表示检查之前的每一行的Q坐标是不是都和当前行的坐标满足abs的关系;
+                    只要是在45°或者135°线上,两个点的横纵坐标差不是相同就是相反
+=========================================================================      
+      
