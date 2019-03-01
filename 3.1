@@ -1,0 +1,49 @@
+今天开始: hash table: easy->medium->hard
+
+205. Isomorphic Strings: 想了一下之后觉得用两个哈希表建立来回char->ASCII映射好一些;
+      Grandyang: 因为是要建立一一映射不能一对多, 所以一看就需要两个哈希表:这里可以用数组
+   ⚠️: 在外面int n=s.size(), for(... i<n;...) 比直接for(.. i<n.size()...)快很多,
+        一个重复使用哦那个一个n, 另一个在for循环中每次都调用size(), 分别beat: 99%, 35%
+        
+##############        
+🐦🐦🐦
+290. Word Pattern: 从别的解法可以看出,string每个char(或者string按空格分割的array)最高效的映射
+      方式是char/string映射到当前char/string对应的index; 从前往后如果之前在哈希表中已经映射过了
+      就直接查看，如果映射结果的int值不同表示并没有match否则遍历完成就是match的
+    附: istringstream将一个string对象和stream关联使得这个string对象的获取可以像stream一样; 从而
+        也有了 >>: read sth. from stringstream object
+              <<: add a string to stringstream object
+      ⚠️⚠️这里用 istringstream in(str): 是把原来的str对象转化成为一个流对象，
+          这样就省去了str按空格分割转化为数组的问题, 因为流对象本来就是按照空格分割的
+    unordered_map<.. , ..> m.end() 这个end()还是返回的是past-the-end的iterator
+    ⚠️: 映射关系是赋值(i+1)而不是i，是因为初始情况默认为0所以要规避这个0，i+1就从1开始
+|这道题最后: 1. return i==pattern.size()是对的, return true就错了; 测试情况: "jquery", "jquery", 那么pattern中的'j'->
+"jquery", 但是之后m2已经到达了m2.end(), 此时的m1[pattern[i]]剩下的都还没有建立映射所以m1[pattern[i]]==m2[word]总是相等的:
+但是并不满足条件: 因为这个相等是由于一方太短了没有建立映射，而不是建立的映射相等造成的; 所以i==pattern.size()刚好判断这种情况
+###############
+
+217. Contains Duplicate:
+      string::find(): 参数是要找的值, 返回的是值对应的index
+
+219. Contains Duplicate II: 重复值并且相邻不超过k
+      建立某个数和这个数第一次出现的所在index之间的映射;之后遍历i增大之后减去映射值看是不是<=k
+
+(有点难)      
+220. Contains Duplicate III: 和上面两道题实际上关系不大, 因为都是不相同的值
+     🆚别人的解法: 用一个map映射从前往后遍历出现的元素对应的index, 用两个指针i,j: |i-j|<=k:
+     遍历的变量是i, j小一些, 如果两者的差要大于k, |i-j|>k: 那么key为j的KV对可以删掉了;
+     |x-nums[i]|<=t: -t<= x-nums[i] <= t:  nums[i]-t <= x <= nums[i]+t
+     也就说x应该从nums[i]-t 开始找;找到nums[i]+t到顶; 找的过程中如果有x满足x <= nums[i]+t就返回true;
+     还是在i的index上面的数映射到i(因为i,j的差不能超过k那么就是这么维持哈希表的)
+    usage: std::lower_bound(iterFirst, iterLast, const T &val):
+      返回一个指向[first, last)内的第一个不小于val的元素iterator; 因为是迭代器所以只能用auto类型变量接收
+     **** 在map中, 是每个元素对应出现的index的映射, 因为map是按key排序的, 所以lower_bound可以找元素的时候用 ****
+
+36. Valid Sudoku: 早就看到的一直没做
+    只验证已经filled的部分:就看当前行，列，小方阵中有没有出现过当前数字
+    这种方阵图的题都是要用二维数组记录每个grid的状态，overhead比较大，但是并不难
+
+
+
+
+
