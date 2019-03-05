@@ -1,0 +1,31 @@
+1000. Min Cost to Merge Stones: 
+      首先, 为什么是dp?  不是greedy: 因为从前往后想可能出错: 
+      e.g. [3,2,4,1]: greedy: 总是merge两个相对小的pile:
+      [[3, 2], 4, 1] -> [5, [4, 1]] -> [5, 5] -> [10]: cost=20
+      但是这个例子: [6,4,4,6],
+      如果 merge greedy: [6, [4, 4], 6] -> [[6, 8], 6] -> [14, 6] -> [20] (cost: 42),
+      但是最优是: [[6, 4], 4, 6] -> [10, [4, 6]] -> [10, 10] -> [20] (cost:40).
+  ==> greedy可能是错的: 如果反过来想: 最后一步应该怎么merge: 
+      [3 | 2, 4, 1]: 3+7=10
+      [3, 2 | 4, 1]: 5+5=10
+      [3, 2, 4 | 1]: 9+1=10 不管倒数第二步merge完了到了什么样子, 最后一步都是整个数组的sum
+      所以其实是要关注要得到倒数第二步的左右两堆，怎么样能cost最小的方式得到左右两堆: i.e.
+      最小的cost{左边所有的pile合成一堆，右边所有的pile合成一堆}===> sub problem左右细分
+      
+      vector<vector<int> > dp(n, vector<int>(n));
+        for (int m = K; m <= n; ++m)
+            for (int i = 0; i + m <= n; ++i) {
+                int j = i + m - 1;
+                dp[i][j] = INT_MAX;
+                for (int mid = i; mid < j; mid += K - 1)
+                    dp[i][j] = min(dp[i][j], dp[i][mid] + dp[mid + 1][j]);
+                if ((j - i) % (K - 1) == 0)
+                    dp[i][j] += prefix[j + 1] - prefix[i];
+            }
+        return dp[0][n - 1];
+        
+        
+993. Consins in BT: 因为跟depth相关: huahua: 也并不一定要level order/queue: 
+                    还是preorder, 只不过depth作为自定义方法中的参数
+          其实就是找值相等的node, 用private成员变量记录 <-- 都是在递归之前做；
+          然后递归; 完成之后比较是不是parent不同但是depth相同
