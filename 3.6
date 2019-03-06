@@ -1,0 +1,22 @@
+首先看了 Manacher 算法, p[i]得到之后为什么还要++?
+
+复习了 N-Queens;
+
+继续HashTable: 
+349. Intersection of Two Arrays: ⚠️注意如果要求输出答案中每个元素都是unique,很有可能用set处理某些地方会很好,因为set不包含相同元素
+    用set把一个集合的元素都放进去, 再遍历另一个集合, 如果遍历的元素在set那个集合中有，说明就是两个集合的共有元素: 加入到res中
+    这个res是定义为set类型, 这样加入的元素就肯定没有重复的,如果遍历另一个集合因为并没有去重所以元素可能有重复的, set的res最后转为vector输出
+  ⚠️注意: set-->vector: 不同类型的元素copy只能用iterator解决  
+
+350. Intersection of Two Arrays: 没有要求去重反而是要求res是包括在两个中都出现的最多次数: 
+    那么同一个元素在一个数组中出现的次数就是这个元素能在res中出现的上限次数,这里就不要用set了
+    而是用哈希表记录出现的次数
+    
+复习:
+33. Search in Rotated Sorted Array: 为什么关注 nums[mid] < nums[right]? 
+    因为如果 nums[mid]<nums[right], 则整个array右半段是sorted可以二分查找,否则是左半段是排序的可以二分查找;
+    关注重点是哪一段是排好序的
+    
+387. First Unique Character in a String: 这题非常简单
+    
+409. Longest Palinrdrome:简单
