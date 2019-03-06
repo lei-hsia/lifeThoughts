@@ -64,7 +64,9 @@
         当前行的col是可以放Queen的, pos[row]=col记录当前row对应的col; 所以在 if(row==n) for... out[i][pos[i]]='Q';
         在行数为n的时候已经出了棋盘说明找到一个解; i是行数, pos[i]是列数
      2. DFS else{ pos[row]=col; solveNQueensDFS(pos, row+1, res); pos[row]=-1;}
-        最后这个在for循环中的 -1 是把所有行之前摆好的Q都清除掉了, 进行寻找下一个解;
+        最后这个在for循环中的 -1 是把所有行之前摆好的Q都清除掉了, 进行寻找下一个解
+        (从上面一行dfs递归能下来就说明整个棋盘已经找到了一个解, 此时棋盘铺满了所以要删掉)
+        
      3. isValid函数: 之前由: pos[row]=col; 用col记录了前面各行放置的Q所在的列;
         isValid函数中: for(int i=0; i<row;..)
                         if (col==pos[i] || abs(row-i)==abs(col-pos[i])
