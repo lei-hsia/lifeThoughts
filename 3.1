@@ -66,6 +66,8 @@
      2. DFS else{ pos[row]=col; solveNQueensDFS(pos, row+1, res); pos[row]=-1;}
         最后这个在for循环中的 -1 是把所有行之前摆好的Q都清除掉了, 进行寻找下一个解
         (从上面一行dfs递归能下来就说明整个棋盘已经找到了一个解, 此时棋盘铺满了所以要删掉)
+        当不能进入else而进入上面的if的时候, 行数到了n, 所以0-(n-1)行都遍历完了, 所以整个棋盘都过了一遍,
+        此时开始真的放Q: out[i][pos[i]]: i表示对应每一行,放置Q的列数是pos[i], 因为之前pos[row]=col这样写的
         
      3. isValid函数: 之前由: pos[row]=col; 用col记录了前面各行放置的Q所在的列;
         isValid函数中: for(int i=0; i<row;..)
