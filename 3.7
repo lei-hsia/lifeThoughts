@@ -26,3 +26,25 @@ TODO: 76, 233, reorganize string
     
 500. Keyboard Row: 三个行对应三个set(不用map因为只需要看有没有不用知道有多少次),遍历每个单词字母看在哪个set 用一个累计变量统计最后次数
      每个找到了之后分别用
+⚠️⚠️🐷🐖: 
+350. Intersection of 2 Arrays II:
+     1). 看if(m[a]-- >0): 改了几个test case发现 if(m[a]-- >0) 就是先减减再判断
+     2). 然后我就理解了, 实际上加到res中的是[1, 1]的第二个1 ； 
+         e.g. [ ]作为nums1那么map为空, 然后[1, 1]进来判断, m[1]==0是成立的不进入if, 
+         然后m[1]--变为-1; 那么第二个1来判断就进入if了所以也加入到了res;
+         
+(sliding window: 绝世好题): 也要复习一下Permutation/Combination
+567. Permutation in String: Grandyang的两个哈希表的思路: 因为只是判断出现的字母总体是否相同,并不关注顺序,
+                所以用哈希表记录s1，和s2中相同长度的字母: 相同就直接返回true, 不同就滑动窗口s2右移
+                
+594. Longest Harmonious Subsequence: 寻找两个相邻的数,两个频数加起来最大: 
+     👌最佳: 其实可以根据一个数是多少, +1操作用count()看大一个的数在不在map中, 遍历更新res <--最简单的方法
+       不用看－1在不在map中: 因为遍历到小的数就还是+1
+       
+451.  Sort Characters by Frequency: 思路是哈希表记录次数; 但是实际上用不着哈希表, 因为用vector:把每个
+        相同的char连出现的次数个放在index为次数的vector就行了, i.e.这个vector按下标存一个string, 这个
+        string就是下标个char连成的string;这样各个char组成的string就已经从后往前按频率排序了, 连起来就行了
+     API: std::string::append(size n, char c): vector的元素是string所以用append方法;
+   实际上, 因为是按频率sort的问题==> 更好的方法: 1) pq; 2) 重写sort
+       
+        
