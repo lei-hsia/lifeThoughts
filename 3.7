@@ -45,6 +45,7 @@ TODO: 76, 233, reorganize string
         相同的char连出现的次数个放在index为次数的vector就行了, i.e.这个vector按下标存一个string, 这个
         string就是下标个char连成的string;这样各个char组成的string就已经从后往前按频率排序了, 连起来就行了
      API: std::string::append(size n, char c): vector的元素是string所以用append方法;
+     vector初始化size是s.size()+1, 是因为要按照(下标==出现的频率)存string, 所以是s.size()+1
+     
    实际上, 因为是按频率sort的问题==> 更好的方法: 1) pq; 2) 重写sort
        
-        
