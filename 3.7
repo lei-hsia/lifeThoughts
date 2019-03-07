@@ -47,5 +47,6 @@ TODO: 76, 233, reorganize string
      API: std::string::append(size n, char c): vector的元素是string所以用append方法;
      vector初始化size是s.size()+1, 是因为要按照(下标==出现的频率)存string, 所以是s.size()+1
      
-   实际上, 因为是按频率sort的问题==> 更好的方法: 1) pq; 2) 重写sort
+     上面的基本方法要掌握; 实际上用一个vector是自己实现了Priority_queue的功能: 按频率排序
+   实际上, 因为是按频率sort的问题==> 更好的方法: 1) pq; 2) 重写sort;
        
