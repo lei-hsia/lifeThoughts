@@ -1,0 +1,30 @@
+等待池和锁池: wait()-->进入等待池; notify()/notifyAll()-->进入锁池等到释放锁之后/竞争获得对象锁
+
+wait, notify, notifyAll都是Object类中的方法,因为每个对象都有自己的等待池和锁池;
+wait, notify, notifyAll都要在 synchronized 方法内部执行, 因为: 
+      1. wait()方法会强迫线程先释放锁(监视器monitor对象),所以调用wait()的线程必须已经获得了锁: 
+          synchronized内部执行就OK, 调用了wait的线程会进入等待池 
+      2. notify()方法: 线程A之前wait之后进入等待池, 让另一个线程B调用notify唤醒A, A进入锁池;
+         A要去获得的还是之前B拥有的锁对象,B唤醒A还是要先给出之前的锁，即B调用notify之前也要有锁;
+  所以wait, notify/notifyAll都要在synchronized中调用就不会有"没有锁"的问题
+  
+wait: 线程进入等待池; notify: 等待池进入锁池;  本质上是线程间通信的方式; e.g.
+// 线程A                        // 线程B
+synchronized(obj_A) {           synchronized(obj_A) {             ⚠️注意因为wait和notify都是调用同一个锁,
+  while(!condition) {             if(!condition) {                  所以java的语法设计是obj.wait(),
+      obj_A.wait();                   // do something               obj.notify()，i.e.基于对象的wait,notify
+  }                                   condition = true;             也就是必须先获得这个对象的监视器,
+}                                     obj_A.notify();               而不是静态方法一样的直接调用wait,notify
+                                }
+LC:继续哈希表
+599. Minimum Index Sum o 2 Lists: 2个list一般都是只用一个哈希表建立其中一个的映射关系再遍历另一个list;
+         这样比用两个哈希表然后用迭代器遍历哈希表高效:==> 因为其实不需要知道出现的和是2，只需要知道一个中有,遍历另一个的时候也有
+      else if(sum<mn) mn=sum; res={list2[i]}: 重置了res, 
+      此时的res只包含了两个index和最小的string, 相当于强力的高index对应的string的pop_back()
+     map存的就是list1中的string对应的index
+     
+
+     
+     
+     
+     
