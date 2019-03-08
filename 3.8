@@ -16,15 +16,64 @@ synchronized(obj_A) {           synchronized(obj_A) {             ⚠️注意�
   }                                   condition = true;             也就是必须先获得这个对象的监视器,
 }                                     obj_A.notify();               而不是静态方法一样的直接调用wait,notify
                                 }
+
 LC:继续哈希表
 599. Minimum Index Sum o 2 Lists: 2个list一般都是只用一个哈希表建立其中一个的映射关系再遍历另一个list;
          这样比用两个哈希表然后用迭代器遍历哈希表高效:==> 因为其实不需要知道出现的和是2，只需要知道一个中有,遍历另一个的时候也有
       else if(sum<mn) mn=sum; res={list2[i]}: 重置了res, 
       此时的res只包含了两个index和最小的string, 相当于强力的高index对应的string的pop_back()
      map存的就是list1中的string对应的index
-     
+  
+***🇨🇳重要:***********************
 
-     
-     
-     
-     
+692. Top K Frequent Words:
+     PQ/min heap: 默认的PQ是由 Min-heap实现的; 而"heap"这种数据结构是底层为PQ的最优结构
+   : Grandyang的思路: cmp:(...&a, ...&b) ..return a.second>b.second: a大于b=>频率小的排在前面;
+     因为如果是a.second<b.second就是a的频率小a排在前面;这里a>b所以a排在后面;也就是这个PQ实现了频率小的
+     在前面; 
+     ⚠️: 通用思路: 如果实现只保留K个元素在PQ中？ PQ相当于一个pipe: 一边进一边出:因为PQ存的是pair,
+     而且pair就是string和出现的频率, PQ存的是从小到大排序的pair, pair元素个数超过了K就从top处pop==>
+     所以堆顶pop出去的总是频率小的pair,那么最后剩下的就是从小到大的最多的K个pair; 然后从头到尾遍历从后
+     往前插入res中就行了
+  关键:实现的最小堆能按照从小到大的频率排序; string因为有个数这个伴随状态int: 用pair记录
+ 🇨🇳: 只要是有 top k...的这种, 都是用PQ解决
+     PQ: 本来是按照频率从大到小排序的; 自定义Comparator: a.second>b.second: 就变成了频率从小到大排序: >的在后面;
+     sort 相反:本来是从小到大排序, 如果 a.second>b.second: 变成了从大到小排序
+  PQ: a.second > b.second: 频率大的排在后面;
+         a.first < b.first: 字母顺序大的排在**前面** <---?????
+   
+   方法二: 实在不懂就用map: map是从小到大排序的; set默认也是升序排序的: 词频的映射用unordered_map, 真正的词用map
+   其实这个方法好理解, 但是PQ这种数据结构/这里是最小堆, 也应该掌握 
+   
+347. Top K Frequent Elements: 直接使用默认的PQ，这个好理解; PQ仍然是类似pipeline只存K个元素, 多的从top移除
+```````
+🐷⚠️注意下面两种的区别: 
+1. for (auto it = m.rbegin(); .. t= it->second : it用->获得元素, 因为it是迭代器
+2. for (auto it : m) q.push({it.second...      : it用 .获得元素, 因为it是映射关系对象,并不是迭代器
+```````
+***🇨🇳重要:***********************
+  
+192. Word Frequency: (bash):
+
+195. Tenth Line(bash): 
+awk是一个强大的文本分析工具，相对于grep的查找，sed的编辑，awk在其对数据分析并生成报告时，显得尤为强大。
+awk认为文本都是结构化的,对文本逐行处理,文本每一行都是一个记录, 行中的每一列定义为一个字段(域), 域和域之间用分隔符分割
+  工作原理: awk把每一行进行拆分, 用相应的命令对拆分的"段"进行处理:
+          1. 行工作模式, 读入文件的每一行，把一行的内容存到 $0 中
+          2. 用内置的变量FS(段分割符,默认空格), 分割这一行, 把分割出来的每个段存到相应变量 $(1-100)
+          3. 输出的时候按照内置变量OFS(Out FS)输出
+          4. 读入下一行, repeat 1
+格式: awk '{pattern + action}' {filenames}
+awk中 built-in的变量: NR: #records in the input file
+                     NF: #fields in the current record(row)
+
+
+java中的: 数组的协变: 多态用于数组: class Fruit {}; class Apple extends Fruit{};
+                   Fruit[] fruit = new Apple[10]; 这样是能够通过编译的,Apple[]向上转型为Fruit[];
+         对象->数组:协变,但是数组元素类型实际上还是Apple,所以放入Fruit的子类但是不是Apple类型, 对编译器
+         来说是可以通过编译的; 但是在运行期间JVM知道数组类型是Apple, 所以加入其他类型的对象会抛出异常;
+=> 这种非单个对象的多态会导致RuntimeError: 希望把问题提到编译阶段: 泛型: e.g. 用泛型容器代替上面的数组:
+            ArrayList<Fruit> fList = new ArrayList<Apple>(); // Compile Error 直接编译失败 
+  也就是说容器的多态，都需要通配符来使得编译成功: <? extends T>向上转型; <super extends T>向下转型
+  
+ 
