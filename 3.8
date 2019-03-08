@@ -1,21 +1,5 @@
-等待池和锁池: wait()-->进入等待池; notify()/notifyAll()-->进入锁池等到释放锁之后/竞争获得对象锁
+等待池和锁池; wait/notify/notifyAll~synchronized; bash之awk; java中的容器泛型,多态和通配符: 见3.8今天的伴随file
 
-wait, notify, notifyAll都是Object类中的方法,因为每个对象都有自己的等待池和锁池;
-wait, notify, notifyAll都要在 synchronized 方法内部执行, 因为: 
-      1. wait()方法会强迫线程先释放锁(监视器monitor对象),所以调用wait()的线程必须已经获得了锁: 
-          synchronized内部执行就OK, 调用了wait的线程会进入等待池 
-      2. notify()方法: 线程A之前wait之后进入等待池, 让另一个线程B调用notify唤醒A, A进入锁池;
-         A要去获得的还是之前B拥有的锁对象,B唤醒A还是要先给出之前的锁，即B调用notify之前也要有锁;
-  所以wait, notify/notifyAll都要在synchronized中调用就不会有"没有锁"的问题
-  
-wait: 线程进入等待池; notify: 等待池进入锁池;  本质上是线程间通信的方式; e.g.
-// 线程A                        // 线程B
-synchronized(obj_A) {           synchronized(obj_A) {             ⚠️注意因为wait和notify都是调用同一个锁,
-  while(!condition) {             if(!condition) {                  所以java的语法设计是obj.wait(),
-      obj_A.wait();                   // do something               obj.notify()，i.e.基于对象的wait,notify
-  }                                   condition = true;             也就是必须先获得这个对象的监视器,
-}                                     obj_A.notify();               而不是静态方法一样的直接调用wait,notify
-                                }
 
 LC:继续哈希表
 599. Minimum Index Sum o 2 Lists: 2个list一般都是只用一个哈希表建立其中一个的映射关系再遍历另一个list;
@@ -56,24 +40,5 @@ LC:继续哈希表
 192. Word Frequency: (bash):
 
 195. Tenth Line(bash): 
-awk是一个强大的文本分析工具，相对于grep的查找，sed的编辑，awk在其对数据分析并生成报告时，显得尤为强大。
-awk认为文本都是结构化的,对文本逐行处理,文本每一行都是一个记录, 行中的每一列定义为一个字段(域), 域和域之间用分隔符分割
-  工作原理: awk把每一行进行拆分, 用相应的命令对拆分的"段"进行处理:
-          1. 行工作模式, 读入文件的每一行，把一行的内容存到 $0 中
-          2. 用内置的变量FS(段分割符,默认空格), 分割这一行, 把分割出来的每个段存到相应变量 $(1-100)
-          3. 输出的时候按照内置变量OFS(Out FS)输出
-          4. 读入下一行, repeat 1
-格式: awk '{pattern + action}' {filenames}
-awk中 built-in的变量: NR: #records in the input file
-                     NF: #fields in the current record(row)
 
-
-java中的: 数组的协变: 多态用于数组: class Fruit {}; class Apple extends Fruit{};
-                   Fruit[] fruit = new Apple[10]; 这样是能够通过编译的,Apple[]向上转型为Fruit[];
-         对象->数组:协变,但是数组元素类型实际上还是Apple,所以放入Fruit的子类但是不是Apple类型, 对编译器
-         来说是可以通过编译的; 但是在运行期间JVM知道数组类型是Apple, 所以加入其他类型的对象会抛出异常;
-=> 这种非单个对象的多态会导致RuntimeError: 希望把问题提到编译阶段: 泛型: e.g. 用泛型容器代替上面的数组:
-            ArrayList<Fruit> fList = new ArrayList<Apple>(); // Compile Error 直接编译失败 
-  也就是说容器的多态，都需要通配符来使得编译成功: <? extends T>向上转型; <super extends T>向下转型
-  
  
