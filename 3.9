@@ -10,3 +10,13 @@
                 又来一次:重复的数; 再次遍历的时候，如果某个映射是正数，说明从来没有出现过所以没有标记=> 没有的数
       ⚠️注意: 是把nums数组中的数 i, 作为下标, 映射到下标对应的数
       
+187. Repeated DNA Sequences: 自己做出来了, 实际上很简单就是map的简单运用;
+         只是要注意 corner: if (s.empty() || s.size()<=10) return {};
+                           for (int i=0; i<=s.size()-10;...) 注意边界
+                         
+        实际上并不用unordered_map只需要用unordered_set, 因为只是出现1次，再出现就可以存到res中了,
+        既然就是1次,那么直接加到res中就行了, res是set是为了不要重复加入; set类型的res之后转换为
+        vector: vector<string>(res.begin(), res.end());  // set变为vector是用迭代器作为首位得到的 
+        
+454. 4Sum II:  (18. 4Sum)
+       
