@@ -1,0 +1,12 @@
+今天, 在早上做了Liquidnet的oa, 下午上c++, 要申公司, 晚上leetcode contest的情况下刷lc: 保有lc每日最低量即可
+
+645. Set Mismatch: 本来是 1-n的数: 这样创建出来的vector下标刚好是1-n! (通用规则) 这种时候用map映射(key是1-n)就慢了
+    if (count[i]==2) res.push_back(i);
+    else if (count[i]==0) res.push_back(i);   // res: [0,0,2,3]: 往后添加了元素:不对; 应该是给第一/二个元素赋值
+    if (count[i]==2) res[0]=i;
+    else if (count[i]==0) res[1]=i;  // res ✅
+    
+ 省空间: 遍历过一次就标记为－1; 因为是 for(int i : nums) =>所以之前遍历过的数映射到的地方已经是负数了,
+                又来一次:重复的数; 再次遍历的时候，如果某个映射是正数，说明从来没有出现过所以没有标记=> 没有的数
+      ⚠️注意: 是把nums数组中的数 i, 作为下标, 映射到下标对应的数
+      
