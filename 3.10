@@ -7,3 +7,43 @@
 3. flask自带的服务器不能满足项目需求: 用 Gunicorn做wsgi容器部署flask程序
     Green Unicorn是个python WSGI的HTTP服务器, 从Ruby的Unicorn项目移植; 此服务器和
     各种web框架兼容,简单轻量级; 直接用命令启动, 不需要编写配置文件, 相对uSWGI容易
+
+LeetCode: 
+1007. Minimum Domino Rotations For Equal Row: contest做出来就不看了;
+
+1006. Clumsy Factorial: 
+(并不简单)1. 确实是 */ 是一项, 但是规律应该是找通项: 而看出来出了第一个 */ 是加之外，所有的后面的 */ 都是减掉,
+         所以后面的 */ 应该是放在while循环中-- 而且⚠️while循环是要先减掉4看是不是大于4再判断,而不是先判断;
+         所以第一项 */ 是单独的, 后面的所有的 */ 是放在循环中的;
+       2. 更重要的通项是: 既然题目都说了一次4个符号: */+-, 后面while循环中的都减掉, 
+         所以每次的while中的通项包括 */+,而不是仅仅是 */
+       3. 而且虽然while中 res -= xxx,最后是"return res-clumsy(N)", 而不是"return res";
+         因为N减小到<=3的时候,base条件下还是有值:这个值要减掉, 否则的话<=3对应的部分少减了
+         
+1008. Construct BST from Preorder Traversal:
+    既然是建数，那么创建节点, 左右迭代都是写在递归函数中
+      关键点是两个: 
+      1. 给的数组是preorder的数组所以满足"中-左-右"的节点的值的规律;找到左右子树节点的分界;
+      2. 找到之后, 左右子树分开处理: 参数: a.根据每次下一个数字建立节点, b.两边处理的界限
+   python 高效algo: bisect.bisect(array_name, sect_point, lo=0, hi=len(a))
+    
+1005. Maximize Sum of Array after K Negations:
+    写条件只用管条件满足的时候应该做什么, 而不用管条件不满足的时候做什么;
+    只用标记K:翻转一个负数就--K直到K==0; 如果 K>#negativeNum, 找到最小值这个数变为负数;
+    因为之前全部变成了正数相加的所以这个abs最小的数要减两次
+    
+  C++的std中定义的方法:
+  std::accumulate(iter first, iter end, T init): 在区间[first, end)内的元素都加到init上
+  std::min_element(ForwardIter first, ForwardIter last): [first, last)中找到最小值
+  同样的还有std::max_element()
+  
+ ⚠️⚠️⚠️: 注意:
+   for(int &a:A) 和 for(int a:A): 如果只是读取数据都无所谓，但是因为要改变A中的数据,这里如果
+   没有&引用那么是改变了A的copy, 之前的A并没有改变, 所以必须要用&: for(int &a:A)
+   
+1. Two Sum: 本来是 O(n^2), 为了缩小时间复杂度为线性时间复杂度: 只遍历一次, 另一个存在哈希表中;
+    哈希表中的映射是 num-->出现的index之间的映射; 每次遍历num都存到哈希表中, 后面遍历的时候就
+    只用遍历到一个数字查一下之前有没有存target减去这个数对应的那个数, 有就返回当前i和哈希表映射到的下标
+   
+
+   
