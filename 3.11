@@ -1,0 +1,32 @@
+早上电面IB，过了，本来看java多线程, 夯实基础--> 主要看了 collection, Serializable;
+
+下午3.40 开始刷题: 
+树的题目, 1008看出来递归其实理解的不够,看到了之前寒假第一次用cnblogs和Grandyang的邮件:107不懂,
+特意看一下是 BT levelorder traversal: 做一下这方面的题;
+
+
+⚠️⚠️⚠️注意：树的题目其实还要更熟练; dfs/bfs递归加深理解
+102. BT Level order Traversal: 为什么层次遍历就一定要加上level这个变量？ 
+     理解递归的本质: 递归得到的节点的遍历顺序是: 先处理左子节点; <---这是dfs递归的写法决定的; 
+     dfs穿越不同的层，同一层放在一个数组中，所以加入某个节点的时候，必须知道当前的深度,所以要level变量；
+  另外，因为不知道树有多深，所以一开始不能指定二维数组的大小，只能边遍历边加；加到 (res.size()==level)
+  的时候就要申请新的数组存下一层: 因为:  二维数组中一层就对应一个数组,level从0开始,res[level]就是
+  要加入元素的一维数组;
+  if (res.size()==level) res.push_back({}); // 这一行就是res中申请新的一维数组
+  本来说是, level超过当前的深度, 即到了下一层，就产生新的一位数组加入node值，而不是等于;
+  但是因为这里的level是从0开始的，所以就好像数组A.size()==n, 不能访问A[n]一样, 一旦level
+  等于当前数组的大小的时候就应该产生新的一位数组存放下一层的值了，而不是超过;
+  
+  深入理解递归调用的顺序: 
+    1. level(node->left, 1, res); // 9
+        --> level(node->left, 2, res); // null, return;
+        --> level(node->right,2, res); // null, return; 此时实际上方法栈上是level(node->left,1,res);刚调用完;
+       level(node->right,1, res); // 20
+        --> level(node->left, 2, res); // res中加入第三个一维数组, 添加15
+           --> level(node->left, 3, res); // null, return;
+        --> level(node->right,2, res); // size3>2, 下一行添加7
+           --> level(node->left, 3, res); // null, return;
+ 
+ 如果用queue做: queue获得最前面的元素用front(); stack, pq才是用top();   
+     
+107. BT Level order Traversal: 
