@@ -1,0 +1,37 @@
+本来是想先做Scala作业的，但是因为昨天刷题不多所以改成早上刷lc:
+TODO: sudoku✅;
+
+TODO: ***********❌76, 233, LRU, Skyline(sweep line), Meeting Room*************
+
+(复习)
+107. BT Level order Traversal II:
+    实际上就是BT levelorder: ⚠️注意理解递归调用的顺序
+    
+36. Valid Sudoku: 
+    遍历一个数字的时候, 判断包含这个数字的行，列和小cell是不是已经包含了当前的数字
+37. sudoku solver:
+    实际上跟 N-Queens思路非常类似;
+    ⚠️注意: 除了这两个地方不一样: 
+    1. N-Queens的dfs递归函数中有嵌套的for循环, 这个没有; 因为这个dfs就直接进入下一个格子调用函数了,
+       所以并不用嵌套的for循环;
+    2. N-Queens中是row==n之后再加; 这个只是判断当前的点是不是'.'然后直接加; 因为N-Queens每次走完
+       棋盘得到的是一个解而题中要求的是得到所有的解, 所以遍历完一次之后要重置再遍历下一次最后把所有的结果
+       都加进来; 而这个是solveSudoku,就只有一个解所以得到的结果就是的;
+    3. dfs调用中: board[i][j]=(char)(k+'0'); if(isValid(board,i,j))... 为什么先放元素,判断;
+        如果不是valid再删掉?? 因为首先必须要放在cell中, 要不然怎么判断! 其实就像人工去放也是要先放再看行不行
+    4. isValid: int row=i/3*3;... col=j/3*3.... ;
+    
+    
+*******
+1. c++ container中像vector一样的随意靠下标取元素: queue<----不行; 用deque: 双端队列
+    (deque双端队列归根到底还是array实现的)
+   deque其实就像vector一样:靠下标直接取元素, 队列首尾insert/remove元素都是O(1)时间复杂度
+   e.g. aDeque.push_back(1); int top = aDeque.pop_front(); std::cout<< aDeque[0];
+   
+2. 用STL容器中的vector, list, deque?
+   A. deque, vector: 任意位置的access; list: O(N) access;
+   B. list: 任意位置插入/删除:random; deque/vector: 慢,移动所有;
+   C. vector/deque几乎是可以互换的, 只有:
+      1. vector:只能在末端push_back, deque: push_back(),push_front();
+      2. 但是vector在内存中也是连续的,deque是一块一块的,块之间不连续: 这样遍历起来vector快一些
+*******
