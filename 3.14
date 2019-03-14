@@ -1,0 +1,30 @@
+接着昨天的: LRU, LFU完之后: 
+skyline, meeting room; 76,233,Sudoku; (完成所有的greedy && hashtable)
+
+252. Meeting Rooms: 直接做的话其实可以暴力比较任意两个区间: A的起始位置在B起始位置前面如果此时A的
+     结束位置在B的起始位置的后面那么就有重合的部分; 反过来也是; 
+   不过interval有没有重叠部分的这类题，最好的做法都是先按interval的起始时间排序然后直接从前往后遍历
+   看后面一个interval的起始是不是在前面一个的结束时间之后就行了;
+   自定义sort的comparator: 
+   [](const Interval &a, const Interval &b){...} // 因为并不想改变原来的值:const; 作用回原来的顺序上:&
+   
+253. Meeting Rooms II: 改成了如果冲突需要多少个meeting room: 
+    还是先sort, 用一个容器记录每个会议的结束时间;遍历intervals看下一个会议的开始时间是不是在之前容器中存的
+    所有的结束时间最小的那个时间之后: 如果是之后的话这两个会议就不冲突了,那么不用增加会议室的数量: 删掉最小的那个把当前的end时间放进堆;
+  ==> 因为要一直知道容器存的所有会议的结束时间的最小值: 用最小堆:c++中是priority_queue<int, vector<int>, greater<int>> pq;
+    这样堆顶就是最小的结束时间;
+    ^^^ 上面的pq的做法比较好理解; vvvvvvvvv 下面用一个map做, 需要的 #rooms不断变化, res是最后的结果表示#rooms变化过程中的最大值;
+    开始和结束会议分别映射为正数和负数; (实际上有点不好理解,但是非常写法简单);用到了map的key是排序的这个特点;
+    
+454. 4Sum II: 这道题是问有多少个这样的tuple---实际上简化了难度; 如果是求4个数的下标的tuple结果就麻烦了;
+      思路跟 TwoSum类似;用哈希表降低时间复杂度; 因为这里并不问实际的数和index之间的关系而是只是问有多少个:
+      用哈希表存的是其中两个的和对应的数量;
+    **初始化map的时候要指定初始化的size可以, 赋值的话因为是entry所以并不好赋值;
+    
+278. First Bad Version: 经典的二分查找问题
+    ⚠️注意事项: 
+        1. mid的定义是在while循环里面, 如果在外面一开始就定义mid, left/right都是定值那么mid就不变了;
+        2. while的退出条件:
+            1）如果while是left<right, 相等就要退出: right=mid; left=mid+1; ✅
+            2) 如果是 left<=right, 超过才退出:  right=mid; left=mid;
+           
