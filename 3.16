@@ -1,0 +1,14 @@
+今天先刷题再复习c++; 明天开始主java;
+
+TODO: skyline, 76, candy crash; ...
+
+15. 3Sum: sort, fix1, left/right指针后两个; 相同数就跳过
+(⚠️:sort,判断相邻是否相等, 双指针)
+
+16. 3Sum Closest:
+    不需要fast lane, 因为每个都要比; sum跟target要算diff: 初始化一个diff然后每得到新的三个数再得到newDiff; 
+    比较diff和newDiff从而更新diff; sum最后的最小值就赋值给了closest; // closest和diff的初始值就是简单的最开始
+    的三个数得到的;
+    
+923. 3Sum w. Multiplicity: 用3sum的思路为什么不对？？ 
+
