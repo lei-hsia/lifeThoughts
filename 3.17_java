@@ -1,0 +1,47 @@
+1. composition vs inheritance (1' hour): 
+
+ https://www.javaworld.com/article/2076814/inheritance-versus-composition--which-one-should-you-choose-.html
+    如果没有is-a的关系而只是想复用代码: 不要用继承,用composition.
+    
+JDK 代码中的不合理处:  Properties vs HashTable;
+
+  java.util.Properties 类在java中算常用的,保存读取的配置文件信息; 很多应用中需要设置环境相关值,
+  针对不同的执行环境进行修改; 这个时候一般设置一个 xxx.properties文件; 文件名随意定，然后在读取文件
+  和解析程序的时候将文件名传入;
+  
+  *****关键是读取的内容保存在一个Properties类的对象中; 可以通过
+    getProperties(String key)读取特定的配置属性; 很重要的一点是: 读写访问的属性都是String类型*******
+    
+ Properties里面访问的本质是一组组键值对KV, 而在JDK中的Properties实现就是通过继承HashTable做的: 
+ 
+ public class Properties extends HashTable<Object, Object>{
+	private static final long serialVersionUID = 4112578634029874840L;
+	protected Properties defaults;
+
+	public Properties() {
+		this(null);
+	}
+	
+	public Properties(Properties defaults) {
+		this.defaults=  defaults;
+	}
+}
+
+ 这里Properties的设计为什么不太合理呢？从前面我们的讨论来看，我们所有应用于HashTable的场景
+ 都适用于Properties吗？不一定吧？首先一个，HashTable里可以支持的参数不仅限于String类型，
+ 而Properties只能使用String类型。如果我们定义一个Properties的对象，然后我们就可以
+ 使用HashTable里的get, put等方法。而且往里面传入一些非String类型的参数; 反正Properties继承
+ 的是HashTable<object, object>。只要是对象就行。这些方法对于Properties来说其实是没有意义的。
+ 如果我们故意使坏，利用put方法往里面放一些非String类型的对象，然后再用Properties的
+ getProperties方法去取, 在Properties的getProperty方法里是使用了父类HashTable的get方法,其具体实现如下:
+ 
+ public String getProperty(String key) {
+      Object oval = super.get(key);
+      String sval = (oval instanceof String) ? (String)oval : null;
+      return ((sval==null)&&(defaults != null)) ? defaults.getProperty(key) : sval;
+ }
+
+在后面的读取中虽然不会取到我们乱加入的对象，但是可能会存在要取的String的hash值
+和我们加入的对象的hash值相同。可能会导致取的时候带来额外的比较，降低执行效率
+
+
