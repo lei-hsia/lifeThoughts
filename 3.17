@@ -1,0 +1,25 @@
+LeetCode: 首先看昨天的contest: 
+
+1012. Complement of Base 10 integer: (📴关键: complement, 二进制转化)
+     很重要的一点⚠️: complement在二进制中: 这两个数相加得到的二进制位全部是1;
+  方法: 找到最小的X使得X>N; 那么要求N的二进制complement: 
+    N + bitwiseComplement(N) = 111....1 = X; ==> bitwiseComplement(N) = X-N
+    
+1013. Pairs of Songs w. total Duration divisible by 60:
+     首先想清楚一个简单的问题: 余数是0-59, 实际上初始化数组大小为60刚好;
+   lee215: 完全转化为 Two Sum的问题: 
+        ⚠️⚠️--->: 数组存的是本数index, res+=的是60的另一部分index对应的value:
+   res += c[(60 - t % 60) % 60];   <--- for(int t : time)
+   c[t % 60] += 1;
+           其实本质上和module的和为60整除没差，但是用TwoSum的方法写更简洁
+      
+vvvvvvvvvv
+1014. Capacity to Ship Packages within D days:  Binary Search用法真是巧妙!!!!!!!!
+   lee215: Given #bags, return minimum capacity of each bag, so we can put items in all bags:
+      left是weights数组中的最大元素, right是所有的weights相加得到的; BinarySearch的mid是每个bag的
+      容量,遍历weights把每个w加到当前容器负载cur上,满了就到下一天那么需要的天数need就要加1,同时负载再赋值为0;
+      这样完了之后一定是所有的weights都装好了然后需要的天数need和限制天数D进行比较==>判断mid这个容量是大还是小了;
+      这样二分查找最后得到的一定就是需要的最小容量;
+^^^^^^^^^^
+(这个题实在是太巧妙，我都不知道说什么好)
+
