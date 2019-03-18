@@ -1,0 +1,59 @@
+1.  https://www.jianshu.com/p/959cf355b574
+同步(函数,被调用过程) vs. 阻塞(线程,调用时状态): 同步时线程是可以在运行代码的,仍然拥有CPU资源;
+                                           阻塞时线程是一定没有运行代码的,不占有CPU资源;
+                                           
+同步异步通常形容一次方法调用过程; 同步方法:线程调用方法,当前线程要等被调用方法结束才能执行后面的代码;          (超市购物)
+                         异步方法:该线程不管被调用方法是否完成都继续执行后面的代码,调用完成后通知调用者:(网上购物)
+  
+阻塞非阻塞形容一个线程的状态; 通常用来形容多线程之间的相互影响; 一个线程占有临界区资源,那么其他线程要用这个资源就
+                        必须等待该资源的释放=>会导致等待的线程挂起(不占有CPU资源);
+                      非阻塞:没有说一个线程可以阻塞其他线程, 所有其他线程都会尝试继续往下运行;
+
+被阻塞的线程挂起就一定不占有CPU资源; 线程同步调用函数,函数同步返回结果之前这个线程并不会挂起:可能继续运行
+
+临界区: 表示公共资源或者共享数据,可以被多个线程使用; 但是一个线程使用,一旦临界区资源被一个线程拥有，其他线程必须等待
+
+
+2. https://www.jianshu.com/p/f65ea68a4a7f 
+用 Executors类中的静态方法创建单个线程或者线程池: 返回的是ExecutorService接口的实现类的对象es,
+es调用submit提交线程任务, submit方法传递的参数是Runnable/Callable接口的实现类的对象:
+      ExecutorService es = Executors.newSingleThreadExecutor();
+  或者 ExecutorService es = Executors.newFixedThreadPool(3);
+    然后 es.submit(new Runnable() {...})
+    或者 Future<V> f = es.submit(new Callable() {...}); f.get() <-- Callable实现类对象submit有返回值,返回值调用get函数得到结果
+  继承Thread类或者实现Runnable接口都是重写run方法, 实现Callable接口是重写call方法
+  
+
+^^^^^ 线程状态的基本操作: interrupt, join, sleep, yield
+
+1. interrupt: 如果当前线程之前已经调用了wait/wait(long), sleep(long), join/join(long)进入了WAITING状态,
+  此时interrupt()方法反倒好了: 因为之前本来就在WAITING现在interrupt一下负负得正==>中断标记位被清除了;
+如果之前是好的，线程调用了interrupt方法那么就会有中断标记位了==>调用isInterrupted()返回的boolean是true;
+==> 
+就是说之前处于等待状态然后调用interrupt()结果中断标记位会被清除:好了,没有中断;
+之前是好的调用interrupt()就会有中断标记位: 被中断了
+  public boolean isInterrupted();  
+  public static boolean interrupted();
+
+2. join: 一个线程实例A执行了threadB.join() <=>当前线程A会等待threadB终止之后,线程A才会继续执行
+哪个线程.join(), 就是等待哪个线程
+join关键:  while( isAlive() ) {wait(0);} :: 只要join调用者threadB还在执行就一直等待;
+threadB 退出的时候会调用 notifyAll()方法通知所有的等待线程;
+
+3. sleep(): 如果当前线程获得了锁，sleep方法并不会让其失去锁; 
+  sleep() vs. wait():
+    1. sleep()是Thread的静态方法, wait()是Object的实例方法
+    2. wait()要在synchronized中调用 也就是必须先获得对象锁;  sleep()任意地方调用;
+    wait()会释放占有的对象锁 使得该线程进入等待池; sleep()只是让出CPU并不会释放对象锁;
+    3. sleep()到达休眠时间就会获得CPU继续执行; wait()之后要等到notify(),notifyAll()才会离开等待池
+
+4. yield: public static native void yield(): 仅仅释放掉当前时间片的CPU,下一个时间片仍然竞争;
+          而且当前CPU只是让给跟当前线程优先级相同的线程: int Priority, setPriority(int); 默认优先级为5
+
+VVVVVVVVVVVVV
+守护线程 (vs. 用户线程);
+用户线程完全结束之后意味着整个系统的业务任务结束，因此系统就没有对象需要守护, 守护线程就退出;
+当java应用只有守护线程的时候，VM就退出; 
+    thread1.setDaemon(true) // thread1就变为了守护线程
+    setDaemon(true)将线程设置为守护线程: 这个过程要优先于start()方法; 否则报错
+
