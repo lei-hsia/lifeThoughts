@@ -1,0 +1,95 @@
+(dp, recursive dfs)
+139. Word Break: string子串: 一看就dp;
+      
+      s串可不可以拆分: 一个一个char增加看可不可以拆分, 但是拆分之后能不能从wordDict中找到并不关心,
+      dp[i]表示的是[0,i)子串能不能合法拆分为wordDict的元素: 至于怎么找的并不关心: dp的好处:只用知道状态,具体什么情况不用管;
+  嵌套for: i增加一个char一个char增加长度; [0,i)进一步拆分为 [0,j)&&[j,i)==> 得到状态转移方程;
+  
+  因为不知道一个一个char找之后，后面的部分如果用for不知道循环多少次: 不知道多少次的情况下: 用递归函数dfs;或者dp;
+  
+      1). 递归函数: 如果返回true, 表明拆分得到的两段都在set中，表示拆分可以成功;
+      2). dp:  if (dp[j] && wordSet.count(s.substr(j, i - j))) {  // 实际上跟递归调用是一样的
+                        dp[i] = true;
+                        break;  // 因为此时dp[i]已经可以拆分成功了，就不需要继续往后用j拆分了,直接break; 
+                }
+                
+    Java: list转化为set: Set<Foo> dp = new HashSet<Foo>(myList);
+
+(recursive dfs)
+vvvvvvvvvvvvvvvvvvvvvvvvv
+140. Word Break II:
+       1. 返回结果要列举所有情况的题，十有八九都是要用递归来做的
+       2. 如果不用记忆数组做减少重复计算的优化，那么递归方法跟brute force没什么区别，大概率无法通过OJ==>
+       3. 递归的过程中用一个数组memo记录递归的过程中完全的数组分割得到的结果
+     
+ ⚠️⚠️for循环中的下面这句:
+        vector<string> rem = helper(s.substr(word.size()), wordDict, m);
+        并不会使得函数重新递归调用从而不往下执行: 因为这里递归调用是赋值给了rem, 并不是 return helper(...),
+        所以函数会继续往下执行 ---- 只不过因为递归会先全部执行完然后再往下: 所以相当于这一行会完成s全部的切割得到所有的单词存进rem,
+        然后往下: 往下的时候就直接把所有的结果加到res中作为一个可能的解了
+  A. helper递归函数中是return helper: 真的会循环♻️地执行, 每次返回结果;
+  B. helper递归函数中是 <T> a = helper(...): 也是循环执行，但是其实都是helper循环执行,每次新的结果都加到a中;
+     总体来看相当于卡在这一行了一直要执行完; 得到a之后继续往下执行
+^^^^^^^^^^^^^^^^^^^^^^^^^^     
+看不懂上面这道题包括递归函数调用的顺序;--->  最后的 return m[s]=res; ??? 看不懂调用的顺序
+
+vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+(sliding window)
+❤️76. Minimum Window Substring:经典的移动窗口题, 经典的hashmap;
+    因为是S中包含T中所有的char,包含并不指定顺序,而且T中相同的char可能并不止1个-->每个字母，伴随count的状态: 明显是map;
+    
+    "如果减1后的映射值仍大于等于0，说明当前遍历到的字母是T串中的字母" --- 因为如果减1之后小于0了,即-1,那么之前的map的值是0,说明没有这个字母;
+    for... 
+        if(--letterCnt[s[i]]>=0) ++count; // 按照上面的说明,因为当前遍历到的字母是T中的字母:所以发现了一个T中的,count加1； 
+        ...
+        if(++letterCnt[s[left]]>0) --count; // 因为之前判断是不是T中的字母的时候做了减减操作，所以现在要移动窗口除掉左边的字母,
+        那么要把之前map中的减减加回来; 如果加了之后value是大于0的，说明这个字母是T中的字母，所以count要减减了; 然后再移动左边界
+    while中是得到了一个包含所有T中char的子串,更新minLen和res: 找到了当前left固定之后最小窗口;
+    那么下一步就是向右移动窗口的左边界,因为改变了子串,所以如果left位置的char/s[left], 是T中的char就减减count, ++left右移左边界;
+ --->>> 能用hashmap, 就能用vector记录每个char出现的次数---> 运行速度提高一倍;
+ 
+ 诀窍: 多数这种题目都是给定一个长string, 要找这个字符串中的一个substring满足一些条件; 
+ general way: 用一个hashmap，和2个指针: 
+ 
+ 模版: 
+ int findSubstring(string s){
+        vector<int> map(128,0);  // ASCII是256字符，但是常用的/键盘上有的, 就127个
+        int counter; // check whether the substring is valid
+        int begin=0, end=0; //two pointers, one point to tail and one  head
+        int d; //the length of substring
+
+        for() { /* initialize the hash map here */ }
+        
+        while(end<s.size()){
+            if(map[s[end++]]-- ?){  /* modify counter here */ }
+            while(/* counter condition */){   
+                 /* update d here if finding minimum*/
+                 
+                //increase begin to make it invalid/valid again
+                
+                if(map[s[begin++]]++ ?){ /*modify counter here*/ }
+            }  
+            /* update d here if finding maximum*/
+        }
+        return d;
+  }
+ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+209. Minimum Size Subarray Sum: 类似上面的sliding window,但是并不需要建立map: 实际上就只需要双指针:
+     双指针的问题因为并不知道要循环多少次所以一般用while,不用for; 
+   ==> 并没有必要用一个count记录window有多长: 因为没有map之类的，
+   window就是在vector中的: right-left就是window的长度;
+
+  为什么 while(right < n)
+          while (sum < s && right < n) {...}
+    内层的while中仍然要right<n的条件?明明都已经在外层的while(right<n)中了: 因为外层的right<n
+    是为了移动窗口能遍历完整个数组,但是内层sum+的时候并不知道, 所以如果内层加的时候不限定right<n
+    也要成立的话,很可能left左边跳过了很大的数但是右边的数都很小==>导致right会加的越界: 
+    e.g.    
+        213
+        [12,28,83,4,25,26,25,2,25,25,25,12] : RuntimeError: heap-buffer-overflow;
+    所以内层加的时候也要限定: right<n
+    
+    return res==n+1 ? 0:res;  // 如果确实就是没有解那么加的会越界1位: res==n+1; 返回0否则res是valid的;
+    
+   
+     
