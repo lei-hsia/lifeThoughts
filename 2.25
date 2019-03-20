@@ -1,4 +1,9 @@
 接着的greedy;
+#############
+Update 3.20. Task Scheduler: 用priority_queue记录每个任务出现的次数;
+    pq的成员函数: empty,size, top, pop, push, emplace, swap; 
+    push VS emplace: push是&,reference:改变之前的变量; emplace是create an updated copy
+############
 
 621. Task Scheduler:
     ⚠️其实有一点难理清思路: mx为同一个任务出现的最大次数:则 # block = (m-1);
