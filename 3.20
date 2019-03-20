@@ -1,0 +1,114 @@
+复习了209. Minimum Size Subarray Sum;
+
+(Hard)
+30. Substring w. Concatenation of All words:
+      1. 因为每个单词的长度相同: 在s从左往右的过程中终止条件提前了: 剩余部分小于n*m: 所以i是****可以等于****的;
+      
+      2. 一个哈希表m1映射words出现的所有的单词的次数,遍历s: 用j遍历--> 但是因为知道所有的单词都是一个长度:
+         ++j的话j每次加1, j*(单词的固定长度)=>每次都是一个chunk取下一个相同长度, i.e. 下一个单词;
+         
+      3. 用哈希表m2记录遍历s过程中取到的单词:因为是每次开始有words的词了建立的哈希表：m2的建立写到遍历s的循环中
+      
+      4. 取到的单词如果m1没有说明不在words中:break; 如果次数多于了words的对应单词的次数说明要重复了:break;
+      5. 为什么5中这么严格匹配?-->因为说的就是s中的substring必须是words的单词无缝全部连接起来
+      
+      6. 嵌套for循环: 外层的是遍历s, 内层的是遍历words的个数对应取s中的chunk    ***** i,j嵌套相当于每个char检查能不能完全匹配s *****
+         i表示s遍历要看的substring从哪个index开始, j表示这个substring要看多远
+         
+      7. 如果j都循环完毕出了for循环:表示遍历的s能够完全匹配words的单词: j==n;这个解可以: 加入到 res;
+      8. 7中因为出了for还要判断j,而且每次i变了之后j都是从0开始: int j=0定义在for循环外面
+      
+break: 跳出当前循环:嵌套循环内层的break只是跳出内层的for;
+continue: 进行下一轮当前循环;
+
+(Easy) 
+859.Buddy Strings: 
+           1. std::string constructor:  string(size n, char c): 初始化n个c
+           2. 长度不等不可能; 完全相同应该有重复(set.size()<size); 不同应该就一组
+           3. 为什么lee的diff数组存的是index而不是char?==>因为A和B共有的是index,对应index的char并不同
+(M) 
+165.Compare Version Numbers: 
+    关键: 不是一个数一个数比较, 而是.为分割点, .和.之间的为一个整体的数, 拿出这个数比较;
+        不断累加的终止条件是碰到'.'
+   
+(E)
+804. Unique Morse Code words:
+    "2 different transformations"说的是最后不同的结果有2种，不是说的同一种MC有两种words中的word的可能;
+     所以HashSet中的元素个数就是要求的different transformations个数, 而不是用words.size()-#diff trans(不过这都是小问题)
+     
+vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+这一类:  1. 设计数据结构; 2. 嵌套列表; 3. 递归就用dfs、迭代/迭代器 就用stack; 4. 碰到int/list的不同的处理
+******************************************************************************
+339. Nested List Weight Sum;
+364. Nested List Weight Sum II;
+341. Flatten Nested List Iterator;
+385. Mini Parser;
+565. Array Nesting;
+*****************
+(M)  ****1. 根据给定的方法返回值判断应该是什么返回类型;  2. 可以用给定的API
+341. Flatten Nested List Iterator: 嵌套列表一般用递归; 但是如果像这里设计迭代器,就用迭代, 
+      迭代一般是用迭代的方法解的, 而且迭代辅助要用stack;
+        
+      const vector<NestedInteger> &getList() const;  // getList()方法返回的是一个vector;
+
+      int next(), bool hasNext()都必须要下面一个元素是int才是返回该int类型的数据/返回true; 
+ 如果下面的元素是list类型的, 前面的返回值类型是undefined, 后面的对list做unpack处理然后返回false
+ : hasNext() 方法中的 s.pop()就是这样的:  如果栈顶是int直接return true了;否则栈顶的list出栈解包再入栈
+         
+ // 这种设计ds的题, Iterator, LRU, LFU, 都要注意;
+class NestedInteger {
+public:
+    bool isInteger() const;
+    int getInteger() const;
+    const vector<NestedInteger> &getList() const;
+}
+ 
+class NestedIterator {
+private:
+    stack<NestedInteger> s;
+public:
+    NestedIterator(vector<NestedInteger> &nestedList) {
+        for (int i=nestedList.size()-1; i>=0; --i)
+            s.push(nestedList[i]);
+    }
+
+    int next() {
+        NestedInteger ni = s.top(); s.pop(); // 没有pop就总是那个栈顶
+        return ni.getInteger();
+    }
+
+    bool hasNext() {
+        while (!s.empty()) {
+            NestedInteger ni = s.top();
+            if (ni.isInteger()) return true;
+            s.pop();  // ni: a list
+            for (int i=ni.getList().size()-1; i>=0; --i) {
+                s.push(ni.getList()[i]);
+            }
+        }
+        return false; // 一直都没有integer直到出了while都没有
+    }
+};
+// 还是要多想一下 上面写的: int next();  bool hasNext() 两个方法;
+         
+339. Nested List Weight Sum: 
+******************************* 非常明显的递归调用dfs!!!!! **********************************
+class Solution {
+public:
+    int depthSum(vector<NestedInteger>& nestedList) {
+        int res = 0;
+        for (auto a: nestedList) {
+            res += getSum(a, 1);
+        }
+        return res;
+    }
+
+    int getSum(NestedInteger n, int level) {
+        int res = 0;
+        if (n.isInteger()) res += level * n.getInteger();
+        for (auto a : n.getList()) {
+            res += getSum(a, level+1);
+        }
+        return res;
+    }
+}
