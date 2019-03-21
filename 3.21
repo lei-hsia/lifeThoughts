@@ -1,0 +1,52 @@
+首先还是 NestedInteger 的类型的题: 
+385. Mini Parser: 还是逐级根据层级调用: 深度增加 dfs; 
+     1. 根据 "[", "]"判断是进入了下一级还是往上走了一级: count记录⚠️跟当前深度是否为同一深度: count==0⚠️
+     2. start和i相当于是左右指针,碰到,或者末尾这样的分隔符表示找到了一个整的word=>可以parse;
+     3. 2进行切割string往后遍历;
+     4. 为empty, 不以[开头(就是1个数), size<=2([]里面没东西) := 都是corner case
+--> 类似: Nested List Weight Sum; Flatten Nested List Iterator;  这种题还是要多写 dfs递归写熟练
+         439.Ternary Expression Parser(LOCKED); 
+
+(非常好的题!!!)
+722. Remove Comments:
+   复习python的re正则模块: 
+   re.sub(要被替换的pattern, 替换别人的repl, 在哪个字符串中string)
+   re.findall(pattern, string)
+   re.split(pattern, string)
+   re.match(pattern, string): string中的开头的子串匹配pattern
+   re.search(pattern, string): 找到第一次出现pattern的字符串中的index
+  
+ ===============================
+  1. python: string的list变为一个string ==>  join(): 'xxx'.join(myList)  # xxx是连接符
+  2. Java:  List<String>变为一个String对象=> String.join(): 
+ ===============================
+ 
+ **************
+ ========> re.sub('//.*|/\*(.|\n)*?\*/', '', inputString)
+ 这样就把整个string中//后面和 /*...*/之间的全部变为了空字符串; 
+ 包括了/*...*/之间有//的情况(显然)和//这一行从//开始的部分: 因为上面re是两个大的部分, //后面的匹配是第一部分 
+   | : or
+   /\\*: 匹配/* 因为/不用转义,但是*要转义表明就是*, 而\本身要一个\来转义;
+   \: 每一个表示就是\的需要还有一个\来转义,即\\表示\的意思; \\\\就表示两个\的意思;
+   
+   .:  匹配所有，但是不包括newline(也就是 \n); 所以(.|\n)就是匹配所有: 但是注意这还是只是匹配一位,匹配多位加上* 变为 (.|\n)*
+   *:  匹配*前面的RE 0-多个;
+   +:  匹配+前面的RE 1-多个;
+   ?:  匹配?前面的RE 0/1个;
+   上面三个都是greedy匹配: e.g.  <.*> --> <a>b<c> ==> <a>b<c>;
+   在 *+?后面再加上?=>非贪婪,最小匹配: <.*?> -> <a>b<c> ==> <a>;
+ ************** 
+ 
+ 其实本质就是变为一个字符串之后的两种正则匹配: 一行的,或者/*...*/的非贪婪匹配;
+ 
+ 
+ 118. Pascal's Triangle: 
+        1. 用组合公式对每一行进行填充: nChoosek(n,m)用迭代的方式每增加一个数就多乘/除一个;
+        2. 因为当前的数来源于上面的两个数: 明显的状态转移: 用dp
+ 
+ 119. Pascal's Triangle II:
+    
+ 
+ 
+ 
+ 
