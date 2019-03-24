@@ -34,4 +34,4 @@ Binary String w. Substrings representing 1 to N:
    S的构建是一个NP的问题(这里实际上是一个最小路径问题);
    
    S看有没有跟N的二进制string相同的substring: 实际上是S中选两个index组成substring: O(S.length^2)
-   
+   循环是到 i>N/2 不用到1: 因为i<N/2的部分, 2*i都包含了i的二进制string(就是在i的二进制string前面加一个1)
