@@ -1,0 +1,12 @@
+contest 启示: 
+
+1. Partition Array into 3 parts w. Equal sum:
+      既然left right作为index标记分割点容易出现right或者left哪个在前、不好区分的问题: 干脆不用index了,
+      用running作为切割的部分的流量求和: 达到S/3就重置为0,对应记录的count++ ==> 如果最后count>=3 表示
+      可以分为3段: index根本就无关;
+      
+2. Smallest Integer Divisible by K:
+      i的循环; i=0; i<1e6; ...
+              value = (10*value+1)%K; //  每次其实关键的只是最后一位;
+              另外, 因为只是关心最后求出来的结果, 中间1111...有多大并不关心: 只用变量记录最后算出来的结果,
+              不要记录中间的变量: 不需要long long etc. int就行了
