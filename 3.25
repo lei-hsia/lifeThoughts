@@ -8,3 +8,29 @@ C++写法的昨天的 Binary String w. substring representing 1 to N:
     但是这种方法会重复计算;==> ✅的: 遇到空格就跳过,这样不管多少个空格都可以跳过了;计算的就只是非空格单词的个数
   或者: 判断: 当前位是' '&&上一位不是' '就可以避免连续空格的问题; 而且最后一位之后加上一个' '=>不用最后还 ++;
   
+(M) dfs:
+131. Palindrome Partitioning:
+     helper 函数的递归调用顺序？？？ <--跟word break II 相同的问题;
+
+vvvvvvvvvvvvvv
+
+(M) 一类题: BFS一个单词一步一步转化为另一个单词: 有给定的list与否只是多了嵌套for改变之后的if条件
+
+433. Minimum Genetic Mutation: 和word ladder一模一样;
+     BFS每个试一下扩散求最小值
+  两层的for循环: 外层控制中间变量是哪一位上面发生改变; 内层是控制改变成什么;
+  if: 如果不是endWord, 加入到map中:->还要把这个改变之后的word加入queue中作为中间改变一个char之后的中间变量;
+  
+(M)
+396. Rotate Function: 肯定不是暴力解; : 找规律: 
+                  用: sum = A+B+C+D: 因为遍历一次求sum很简单;
+                  F(0), F(1), ... 找怎么由F(0)-->F(1)-->F(2)的递推方法, 找规律
+                  
+
+(E)
+485. Max Consecutive 1s: 
+     for遍历数组, ⚠️for中的while也要有i<n这个条件, 否则会heap overflow!!
+     当是一连串1的时候, 用while fast lane这些1累计数目更新count; 
+     出了while之后再更新res--> 快
+     
+(M)
