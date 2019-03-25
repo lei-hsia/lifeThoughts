@@ -1,0 +1,10 @@
+C++写法的昨天的 Binary String w. substring representing 1 to N:
+把int转化为对应的二进制的string:  
+      // bitset<32>(i)把i转化为bitset的形式, to_string()变为string
+      string str = bitset<32/64>(i).to_string(); 
+(E)      
+434. #segments in a String: 
+    错误的做法: isspace(s[i])判断是不是space, 最后加1: 不行是因为空格并不一定就只有1个:可能很多空格连在一起也应该只算1个
+    但是这种方法会重复计算;==> ✅的: 遇到空格就跳过,这样不管多少个空格都可以跳过了;计算的就只是非空格单词的个数
+  或者: 判断: 当前位是' '&&上一位不是' '就可以避免连续空格的问题; 而且最后一位之后加上一个' '=>不用最后还 ++;
+  
