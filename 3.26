@@ -1,0 +1,49 @@
+131. Palindrome partitioning: <---调用顺序?
+-------------
+
+(M)
+114. Flatten Binary Tree to Linked List: 这次首先想到的是非递归的方法,思路是把左子树作为一个整体
+切下来变为当前节点的右子树，原来的右子树连接到这个左子树的最右child节点的右子树; while(cur)... cur=cur->right;
+这个cur=cur->right是因为要不断迭代: 现在只是root所在的最上层flatten了,之前的左子树还要继续flatten, etc.
+   所有的操作都是在while(cur)中的
+   
+(H)
+126. Word Ladder II: find all shortest transformation sequence: 
+之前的是找len(shortest path), 现在是找所有的min_len的paths: 我的思路:跟之前一样找到min_len,然后遍历map,
+跟min_len相等的map的第二个值就加入res;==> ❌不行, 因为每增加一个词都要记录当前路径: queue都变了 
+
+huahua: 从beginWord到endWord, 用BFS创建一个DAG, 再用DFS搜索最短路径
+BFS: 因为每两个词之间的距离都是1，要不然还不能用BFS
+
+127. (#补#):
+2种方式: BFS, bidirectional BFS; 双向汇聚时间复杂度降低了很多: 金字塔: 1*4 vs 2*2; 时间复杂度指数上降低了一半;
+huahua的方式: 
+  第一种bfs: while中有3层for循环: 里面2层不用说外面的是word单词每一位的选择，内部的是每一位替换成为'a'-'z';
+  但是最外面的那层循环: 是遍历当前的queue中的所有单词: q.front()得到单词w进行后面的操作;
+  ==> 这样queue的遍历作为外层for,for外面有++step; --> 是很明显的分层操作: queue每次变一位得到的单词全部一次循环处理,
+  都是对应同样的 #step; 而不是交给最外面的while: 这样bfs的层次更明显;
+  ch是为了复位之前的单词, 否则是没有必要进行什么操作的, 直接下一层for循环改变字母了
+  
+ 3'00-4'30: 并没有解决 word ladder II, 但是找到了word ladder I 的更优解; 并且还有2种不同的:单向BFS和双向;
+ 而且while中3层for循环, 最外层的是遍历当前queue所有的word: BFS的层次更加明显
+     trivial: queue push, set insert
+     
+ 126. **************************
+ else {
+    // Not a new word, but another transform
+    // with the same number of steps
+    if (steps.count(w) && step < steps.at(w))  <---由别的parent单词扩展到当前单词,而且走过的步数相同
+        parents[w].push_back(p);
+ }
+ 
+ 为什么: step < steps.at(w) 表示别的parent单词扩展到当前单词并且步数相同? 
+ 因为:  ++step是for外面前面做的, 此时判断实际上已经transform了但是step并没有加, 所以step还是记录的parent的step;
+ steps.at(w)表示的是当前单词w的步数,也就是transform之后的单词的步数: 就是当前的单词的步数; 为什么当前的单词步数之前
+ steps数组会有记录?---> 因为之前别的parent扩展过到当前的单词; 实际上这里: step+1==steps.at(w)
+ 
+ getPaths() 函数是: 找到了一条可行的图的路径之后，构建这个DAG;
+ *******************************
+ 
+ 
+ 
+ 
