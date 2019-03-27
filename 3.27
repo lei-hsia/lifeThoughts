@@ -1,0 +1,77 @@
+(回溯;因为返回所有可能性;)
+131. Palindrome Partitioning:  (backtracking不是dfs:dfs仅限tree)
+
+**python**: BUG: 'xxx' is not defined: 很多时候就是self.method()的self没写
+
+dfs(): 方法内2步 (公式):  1. Return Condition; 2. Backtracking
+注意range(a, b), xrange(a, b)循环都是不包含b这个终点🏁的; 要包含就要往后多一位;
+
+为什么dfs递归调用中, dfs后面只是pop()一个? --> 因为调用链中是多重dfs调用: 当前一层的dfs的结果
+pop()出去一个, 往上走一层, 继续执行pop_back(), ...etc. 所以out这个一维数组会把从后往前的元素
+pop出去，直到再次碰到之前没有判断过的元素: 就继续调用dfs函数; 
+
+*****
+# 为什么参数传递是temp[:]? 因为是想传递完成加入元素的temp[:]的copy,并不是新的temp:否则什么都没有
+self.res.append(temp[:])  
+*****
+
+Input: "aab"                     
+Output:
+[
+  ["aa","b"],
+  ["a","a","b"]
+]
+
+[u'a']
+[u'a', u'a']
+[u'a', u'a', u'b'] ---> 全部pop出去再开始判断 u'aa': 是因为'a','a','b'都已经判断过了
+[u'aa']                 其实dfs并不是都是全部pop出去的: 想tree里面的stack: 遍历到最左下
+[u'aa', u'b']           子节点然后回溯,首先会回溯到倒数第二深那层的节点的右子节点:因为是不同
+                        的case了; 
+
+# 什么时候加self.? self.代指全局变量, 所以加了self就表示改变的是全局变量,否则只是方法内的局部变量
+
+class Solution(object):
+    def partition(self, s):
+        """
+        :type s: str
+        :rtype: List[List[str]]
+        """
+        self.res = []
+        self.dfs(s, [])
+        return self.res
+    
+    def dfs(self, s, temp):         dfs都是这个套路:1.终止递归条件&do; 2.回溯递归
+        # return condition------RETURN CONDITION-------
+        if not s:
+            self.res.append(temp[:])
+            return 
+        # backtracking ---------BACKTRACKING-----------
+        for i in xrange(1, len(s)+1):
+            if self.isPali(s[:i]):
+                temp.append(s[:i])
+                self.dfs(s[i:], temp)
+                temp.pop()
+    
+    def isPali(self, s):
+        return s == s[::-1]
+        
+ c++的写法和python的写法思路是一样的, 只不过c++并没有copy: i.e. 没有temp[:]; 要用substr()方法,
+ 因为没有copy又要记录每一段cut下来得到的substr: 还需要额外的标记start: [start-->i]这一段是palindrome;
+ 一旦不是palindrome了start就变为(i+1): 从当前遍历到的位置的后一位开始; 
+ (其实这样的start有点类似sliding window的left左边界);
+ *****************************************************************
+ dp: 因为并没有要返回所有可能的情况 ==> 不用backtracking;
+ dp: 因为是操作字符串的substring求极值的问题 ==> dp;
+ 132. Palindrome Partitioning II:
+ 
+ 一维的dp数组，其中dp[i]表示子串 [0, i] 范围内的最小分割数:==> 很多时候看到, 
+ dp[i]没有思路的时候就表示 [0,i)的子串的情况;
+ 0-->i: 因为可以在[0,i]范围内任意地方切，所以用j遍历[0,i), 那么[0,i]的数组被切分为了[0,j), [j,i)
+ 两部分, [0,j)假设已知, [j,i)进行palindrome的判断: ‘’这种题好像不久前做过一次!!!
+ 
+ 
+ 
+ 
+ 
+ 
