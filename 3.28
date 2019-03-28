@@ -1,0 +1,29 @@
+647. Palindrome substrings: 一维或者二维都是从中间的字符向两边扩散: 
+二维的: 一个变量向一个方向遍历,另一个变量从当前变量开始向反方向扩散;  一维的: 每个字符作为中间的字符向两边扩散;
+    1. 双指针helper函数: palindrome在主函数中的调用分为奇数/偶数 两种情况；
+    2. dp的判断: j-i<=2: 可以等于2:刚好就是中间一个char的情况; ( (j-i<=2) || dp[i+1][j-1] )
+^^^^^^^^^其实dp的做法比较好记
+    
+    
+516. Longest Palindrome subsequence: 不是substring;
+sub...求极值: dp; dp不知道应该表示什么的时候: 就表示要求的量;
+dp中间取substring/subsequence:外层的for循环i是递减的变化,内层的for循环j是增加的遍历: 这样内层的是正常的顺序比较好;
+
+关注点: 看改变要求的值的临界条件是什么: 这里是s[i]==s[j]; 通过临界条件的不同导入不同的控制语句, 进行dp的状态转移
+
+
+132. Palindrome Partitioning II: 这个题的I是用回溯递归写的,求所有的out放在res中; II: 又是substring求极值:dp; dp[i]表示
+     dp[j-1]:= ［0，j-1]段内的string #minCut;
+     p[j][i]:= [j,i]段内的string是不是 palindrome;
+ i是遍历给定的字符串，j在[0,i]范围内, 分为[0,j-1], [j,i] 两段
+ 
+ -------> 为什么是 i-j <2 不能等于??
+ 
+ 730. Count different Palindromic Subsequences
+ dp:  s[i]!=s[j]:  dp[i][j] = dp[i][j-1]+dp[i+1][j]-dp[i+1][j-1]
+      因为不等的时候, 不能更新, 就用之前的值找规律得到这个值;
+      
+      s[i]==s[j]: 相等的时候不知道中间有多少和两边的char相等的字母，所以比较复杂:
+      判断中间有0, 1, >=2个和双端相同的char==>决定了向中间fast lane的left,right双指针最后的相对位置; 
+      
+      http://www.cnblogs.com/grandyang/p/7942040.html
