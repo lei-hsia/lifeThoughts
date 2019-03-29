@@ -1,0 +1,37 @@
+>>> 复习: 昨天的 132. Palindrome Partitioning II: 
+为什么[j,i]之间判断是不是回文串写的这么简单？ ::因为这个递归过程用一个二维dp表示了，所以看起来简单实际上算得很多;
+
+(今日):
+292. (1,2,3): 一个人:1,2,3 <-- 后一个人: 3,2,1; 所以如果给定的N%4==0: 必输;
+general: 可以取 (1~n), 那么总数是(n+1)时一定输; 其他时候可以赢;
+
+vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+(based on 292)
+464. Can I Win: 一看,很明显的从后往前倒退:sub-structure:dp;
+  huahua, Grandyang都是: (递归+memo); 算法: minMax; 
+  时间复杂度: O(M!);因为是minMax树:实际上要累计所有的可能性:选择为Permutation;
+  但是实际上如果到目前位置为止还没有结束:前面的顺序无关: Permutation->Combination: O(M!)降低为O(2^M);
+  
+  注意是"不放回"选:
+      遍历所有数字，将该数字对应的mask算出来，如果其和used相与为0的话，说明该数字没有使用过;
+  这样来判断是否使用过: cur=(1<<i); 1左移i位:相当于(2^i), 但是从bit manipulation理解;
+  cur是i对应的mask; (cur & used):可以看出是否之前出现过cur: 如果 按位与 结果是0说明没有出现过,1表示有完全重复:出现过;
+  
+  搞不懂啊！！！这道题 !递归函数的逻辑和 cur|used
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+133. Clone Graph: 对图的两大遍历: BFS, DFS
+    dfs递归图的遍历非常类似树的遍历;
+    
+ ⚠️注意:   1. 避免重复拷贝: 用一个map存每个不同的元素的拷贝; 如果val存在直接return这个值不用再拷贝了;
+           2. 因为是return...graph; 所以一定是有new Node的操作创建node的;
+  --为什么要避免重复拷贝？
+  --因为在clone出来的图中，一个val对应一个节点, 如果这个val对应的节点已经拷贝过了，那么在clone图中只需要连接
+    这个节点和其他的节点，etc.而不用再次拷贝(说的是这个意思): 所以有: 
+  unordered_map<Node*, Node*> m;
+  Node* clone = new Node(node->val);
+  m[node] = clone; // 都是Node类型:但是是原图中的节点映射到新生成的clone的图中的节点
+  
+  DFS的写法 <=> 从这个节点沿其neighbor扩散从而遍历整个图, 其中clone过了的节点就不clone了; 
+               neighbor的关系是用一个vector<Node*> 保存下来的.
+               
