@@ -1,0 +1,29 @@
+(昨天):
+复习:
+464. Can I win: 用一个map/vector作为memo; 递归调用;
+     canWin()函数是表示能不能win, 每次递归当前的函数表示我自己能不能win, 递归下一次就表示对方能不能win;
+    如果对方canWin是false表示一定不可能win:那我一定win: 进入if, return true结束; 
+ >>>>关键: 如果对方canWin是true: 表示他“有可能”win: 实际上他一定能win !!! (这是关键点,这也是为什么
+          如果他有win的可能, 那么他一定会选择win的path最后win,所以我一定输, 所以不进if; 所以for遍历完了
+          都没有进if的话, 最后return false;)
+   所以总结下来，其实只有两种情况: 1.我一定能win; 2.我一定会输; >>>没有对方能win但是他不win的中间情况;
+   实际上是minMax算法; 也是alphaGo的算法; (只不过这里的cur和used, cur有没有出现在used中是用异或操作进行的)
+>>> 还有个要注意的地方: 
+  for (int i=0; i<length; ++i) ...
+      ...
+      if ((cur & used) == 0) {  // 异或与等于0表示cur当前的数字没有出现在记录的used中过, 才进入if
+        if (total <= (i+1) || !canWin(length, total-(i+1), cur|used, m)) // 是(i+1):因为当前的数就是(i+1), i是0到len-1, 但是实际上数是选择1到len
+      ...
+  canIWin()函数调用 canWin()递归函数, used初始化的值是0，因为再从1开始到length相当于都没有用过,
+  
+  ************
+  📴关键: 一旦能赢就会选这条路赢return true; 只有遍历完所有的选项都不能赢才return false
+  huahua: m_ = vector<char>(1 << M, 0);  // 1左移M位得到这个数组,记录所有可能的combination情况; index表示这次的数字
+  ************
+      
+复习:
+339. NestedList Depth Sum: 
+     1. depthSum()函数中声明一个变量res, res累加得到最后的结果;
+     2. getSum()这个真正执行运算调用递归的函数,也要声明自己的res; 因为两个函数的作用域实际上是不同的,
+        这个函数中的res只是加自己的res;
+ 
