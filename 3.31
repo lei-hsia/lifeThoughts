@@ -1,0 +1,74 @@
+(contest): 应该反思
+
+1018. Binary Prefix Divisibele by 5:
+     可以: for (int v : A) {
+              x = x * 2 + v;  // 左边的每次都自己迭代乘2: 并不用从后往前: 从前往后就行了
+              x %= 5;         // 每次得到的数要module 5: 因为这样还是能保证"5-divisible"性质不变 
+     
+vvvvvvvvvvvvvvvvvvvvvvvv
+(⚠️⚠️: 一类题: next greater element: 用栈;省去index查找; **因为是下一个"大的"元素,比大小,所以链表是不好的,转化为列表/数组**)
+1019. Next Greater Node in Linked List: 
+    先把链表的每个节点的值按初始顺序存到数组中, 变为一个列表/数组nums; 用一个辅助的stack作为running流量计,
+    stack每次push进去的都是遍历数组的元素; 
+    
+    从后往前遍历数组nums,比较nums[i]和stack.top()--> 此时的栈顶元素都是当前nums[i]后面的元素;
+    如果栈顶元素小于s.top()说明当前nums[i]比后面的(从后往前的)最后一个元素大: 这个元素pop出去: 
+    拿下一个/数组中前面一个元素比较; 直到找到一个大的,或者栈pop空了表示后面的元素都小一些: push_back(0);
+    
+   ----> 为什么用 stack: 因为是从后往前遍历==>都是先push进比较后面的元素; 但是比较nums[i]和这个数后面的
+   数: 都是nums[i]后面从前往后遍历,即先看比较前面的数: 所以用栈:每次top(), pop()都是关注比较前面的数;
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+vvvvvvvvvvvv
+1017. Convert to Base -2:
+   N & 1: 异或与判断操作: 1的bit位对应000...1, N的二进制最后一位如果也是1: return true; else return false;
+   N >> 1: N的bit右移一位, 相当于N/2;
+   
+ ⚠️⚠️⚠️: base2的标准写法; (以及,如果是baseK, >>1变为 /K 的写法);
+ 
+  ===>: 为什么转化为base2每次辗转相除是 N = N>>1, 而对应的 base -2就是 N = -(N >> 1)?
+  直观感受: base2的时候二进制位乘的是1, 2, 4, 8...; 
+          base-2的时候是1, -2, 4, -8.../ (-2)^0, (-2)^1, (-2)^2, ...
+      *****所以本质区别就是奇数轮的时候把当前的数变为负数就行了 <=> N前面加负号; (因为第一轮对应的是1所以是正的,所以当前第一轮是正号下一轮是负号)
+          
+  最后: 为什么 res = Integer.toString(N & 1) + res; ? 新的放在左边? 因为每次辗转相除得到的是最后一位,
+       所以每次得到的新的余数是最高位;
+  
+  N & 1: 因为当前是奇数余数就是1对应的位就是1，如果是偶数余数是0对应的位就是0; 所以用 N & 1;
+  
+504. Base 7: 
+*********
+如果 base是负数: 正负交替的进行:  每次N都是主动变为负的;
+如果 base为正, 但是给定的N是负数: N先变成正数辗转得到结果, 再在最后整个string前面加上负号;
+*********
+Base进制转化的标准格式: 
+           while (n) {
+                      res = to_string(n % 7) + res;
+                      n = n / 7;
+                  }
+
+(图中的cell相连、dfs的一类题目)
+1020. Number of Enclaves: 
+     从边界开始往里面dfs, 直到所有相连的1全部被flood fill;
+     边界: i==0, j==0, i==m-1; j==n-1;
+     dfs递归结束的条件: i<0, j<0, i==m, j==n: 此时已经越界了, return;
+     
+   trivial: 
+   c++:    std::begin(Container& con), std::end(Container& con);  
+           传递的参数都是容器的reference, 返回的是指向容器第一个/最后一个后面的元素的指针;
+   -->
+   return accumulate(begin(A), end(A), 0, [](int s, vector<int> &r)
+    { return s + accumulate(begin(r), end(r), 0); });  // 二维vector对每个vector中的元素全部相加的lambda函数写法
+    
+===================
+总结: 
+divisible by 5:     *2迭代自身加上新的数; 保留每次的module;
+next greater node:  转化为数组,不用指针用stack弹出操作得到后面最近的大数;
+convert base -2:    base转化的题, res= xx%xx + res; N /= N; 给定1.正负数、2.base为负数;
+Number of enclaves: 图相连cell的dfs标记,从各边向中间扩展, 越界return
+
+
+
+  
+  
+ 
