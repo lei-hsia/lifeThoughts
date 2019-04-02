@@ -1,1 +1,26 @@
-1020. 
+1020. # Enclaves:
+    从边界开始dfs；
+    dfs 递归调用中, 第一行的return条件是i,j越界: 越界dfs就停止;  碰到的cell不是1也停止;
+ accumulate()函数中, 参数是beginIter, endIter, init_val, bit_operation<>:这个bit操作
+                    一般定义为lambda函数; 这里是vector的vector每个元素相加: 
+                    因为要都保存起来: s+accumulate(...), 没有 s+...不行
+
+
+733. Flood Fill:
+
+void helper(vector<vector<int>>& image, int i, int j, int color, int newColor) {  // 很明显的3部分 (dfs通用)
+        int m = image.size(), n = image[0].size();          
+        if (i < 0 || i >= m || j < 0 || j >= n || image[i][j] != color) return;   // return结束条件
+        image[i][j] = newColor;                                                   // 真正做的事情
+        helper(image, i + 1, j, color, newColor);                                 // 递归调用
+        helper(image, i, j + 1, color, newColor);
+        helper(image, i - 1, j, color, newColor);
+        helper(image, i, j - 1, color, newColor);
+   另: 
+      主函数中给了sr, sc这个初始化坐标: 要用上; 很明显是dfs递归调用中作为真正有意义的参数传递
+  关键📴: 
+      check到的cell的颜色和最开始的cell的颜色如果不同: return;
+      如果相同,(说明dfs已经递归能到达这个cell了); 那么newColor赋值给这个cell作为改变之后的新颜色;
+
+542. 01 Matrix:
+    ??? 
