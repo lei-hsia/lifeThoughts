@@ -1,0 +1,25 @@
+contest 题目: (all INSPIRED by cuiaoxiang)
+
+1021. Remove Outermost Parenthesis: 
+      实际上并不需要“首先>=2”这个条件, 只要增加一次>=1了就可以了, 如果刚好就是1次( 那么去掉左右两边的得到空string
+      
+(实际上很容易弄混)
+1022. Sum of Root To Leaf Binary Numbers:
+      1. 跟上次一样, 因为每次运行得到的结果很大: 每次运行都mod;
+      2. sum是外界变量: 最后返回的就是这个值; 只有在最后dfs遍历全部完成之后才都加到sum上面然后返回;
+      3. cur是从root到当前这个节点前面为止dfs累计得到的： 
+               因为随着dfs递归调用每次记录都在变化: cur是dfs函数的参数
+    >>>>> return 条件之后: 正常情况下做的事情: 
+       因为每次都要把前面累加的翻倍，然后加上当前的数字---> 赋值给新的数字next，然后这个数字next
+       变为了两个子节点的“当前”的累计和－－－> 进入下一轮递归;
+       
+1023. CamelCase matching: 
+    1. 并没有哪一个一定表示是主另一个是客: 两个string都是主:滑动比较两个string:(s,t)的char是否相同;
+        s是queries中的每个string，t是pattern;
+    2. 相同就同时向右移动1; 不同的话: s当前的char不能是UPPER字母否则return false;是小写就右移1位;
+    3. 如果完全匹配了pattern并没有结束: s剩下的部分不能有任何UPPER字母: 有的话 t 不能加大写匹配:不行
+    4. 前面的return都在for循环里面: 肯定会出现 without return value的bug;此时因为t已经匹配完成: j应该到了t末尾
+   
+  >>>>: 匹配字母并不用每种情况遍历: t加上小写字母匹配: 因为只是匹配，如果匹配就看下一位是不是匹配: bfs太麻烦了;
+      trivial: for循环没有初始化没有++i每轮自增 只有中间的条件并且在循环体中++: 相当于while循环的作用
+
