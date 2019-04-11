@@ -2,4 +2,19 @@ contest:
 
 1023. Camelcase matching: 实际上就是两个字符串匹配问题;
 
-1024. 
+1024. Video Stitching:
+     1. sort: 因为最终目的是不间断到达最右边的interval的右端: 按照a[][1] sort;
+     2. 应该每一个interval都有自己的一个伴随状态: 用一个数字记录到当前interval右端 <---需要多少个;
+            .>>> 每个interval都有伴随数字: 从前往后遍历,后面的依存于前面的: dp;
+            
+     3. dp 表示的是到当前interval的右端的数为止，需要的interval个数; 
+     那么>>>
+     3.1. 需要最小值: dp[i] = min(dp[i], dp[j]+1);  i是一轮遍历, j是i前面的所有;
+          >>> 因为是dp[j]+1：+1是加的当前i位置的interval; 所以dp[j]一定也是全部cover掉的;
+          也就是说能这样做的前提是 a[j][1] >= a[i][0];
+     
+     4. dp 初始条件是 interval左端如果是1，那么这个interval就是排列的最初的interval; dp为0，
+        否则的话dp的值是状态转移得到的: 初始化为很大的数;
+     5. 最后得到的是，只要interval右端cover了T，那么到当前位置的interval就可以cover掉整个tape,
+        当前的dp就是目标值; 如果遍历完dp都没有，说明不可能完全cover: res = -1;
+
