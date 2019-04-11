@@ -2,6 +2,7 @@ contest:
 
 1023. Camelcase matching: 实际上就是两个字符串匹配问题;
 
+<NICE>
 1024. Video Stitching:
      1. sort: 因为最终目的是不间断到达最右边的interval的右端: 按照a[][1] sort;
      2. 应该每一个interval都有自己的一个伴随状态: 用一个数字记录到当前interval右端 <---需要多少个;
@@ -18,6 +19,11 @@ contest:
      5. 最后得到的是，只要interval右端cover了T，那么到当前位置的interval就可以cover掉整个tape,
         当前的dp就是目标值; 如果遍历完dp都没有，说明不可能完全cover: res = -1;
 
-     trivial: 
-     const int INF = 1 << 30; 
-     那么得到的INF就是32位的首位为0: 表示正数, 第二位是1，后面都是0; 这已经是int里面很大的数
+          trivial: 
+          const int INF = 1 << 30; 
+          那么得到的INF就是32位的首位为0: 表示正数, 第二位是1，后面都是0; 这已经是int里面很大的数
+
+     6. dp数组全部得到之后:
+               if (a[i][1] >= T) res = min(res, dp[i]); 
+        >>>> 并不是只执行1次! 因为是按照interval右端排序的, 左端不知道，所以可能后面的
+             dp比前面的小: 所以是不断遍历迭代res, 而不是只赋值一次res: res = dp[i];
