@@ -18,3 +18,6 @@ contest:
      5. 最后得到的是，只要interval右端cover了T，那么到当前位置的interval就可以cover掉整个tape,
         当前的dp就是目标值; 如果遍历完dp都没有，说明不可能完全cover: res = -1;
 
+     trivial: 
+     const int INF = 1 << 30; 
+     那么得到的INF就是32位的首位为0: 表示正数, 第二位是1，后面都是0; 这已经是int里面很大的数
