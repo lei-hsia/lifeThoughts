@@ -1,6 +1,39 @@
 contest: 
 
-1025. Divisor Game:  cuiaoxiang大佬用的是dp看状态转移, 其实我一开始也这样想了, 但是总感觉这种博弈论的题应该有别的办法;
-    果然, 简单办法: return N%2==0;
-    
+1025. Divisor Game:  cuiaoxiang大佬用的是dp看状态转移, 其实我一开始也这样想了, 但是实际上没想出来状态转移怎么转移;
+    简单办法: return N%2==0;
+ 关键: Embedded optimal: 
+     N:奇数; 我只能选奇数=> 对方得到偶数: 对方win;
+     N:偶数; 我选1=> 对方得到奇数: 对方lose; (我可以选1: 因为是最佳策略,那么我一定会选类似的保证我win)
+ 
+ dp: dp[i]表示N是i的时候的Alice的结果: j<i;  关键: if(dp[i-j]=false) dp[i]=true;
+ 
+ j是小于i的所有数, 也就是说Alice会尝试所有可能的数(j不被i整除的时候可以continue跳过), dp[j]知道了之后,
+ dp[i-j]是对方要选数字的这一轮了, 如果对方会lose, i.e. dp[i-j]=false; 那么我自己就win; dp[i]=true;
+ 
+ 
+ 1026. Maximum Difference between Node & Ancestor:
+      1. 因为一定是dfs递归,所以直奔主题: 怎么算mx? : 用node->val和整个一条root->leaf的通路的max/min做差得到;
+         (注意min也要记录); 所以递归的时候必须同时记录这两个值作为伴随状态; 
+      2. approach: top-down: p作为当前节点, cur记录从root到当前节点位置为止的所有通路上min值和max值;
+         从root从上到下递归, 一直记录整条路上的max和min; 
+  *** 3. 只要有一个cur的field不是INF那么就都不是INF; 表示cur的量更新过了, 此时可以算 res;
+  *** 4. 有左右子树可以递归完成之后: 节点操作完毕;  更新伴随状态cur: cur的每个field是跟当前节点的val比较
+      5. if(node->left)这种条件判断是需要的: 作为向左递归的前提; 否则会出现 昨天那种 null pointer;
+      
+      cuiaoxiang大佬用了 typedef pair<int, int> ii; 记录每个node的到目前位置为止的mx/mn;
+      但是实际上 这两个数作为dfs递归的参数传递进函数就行了;
+  >>>> 主要是还要记录min: 这个真的没有想到, 但是实际上是应该记录的;
+      
+     递归的过程还是类似的: dfs函数中, 一部分递归, 另一部分处理每次当前节点需要做的改变: 这里是更新cur的值
+   >>> 这里伴随状态做的事情要放在递归后面; 因为要先递归改变了cur的field的值才能改变状态(实际上也只是改变了
+        第一次的调用顺序，因为是递归所以后面还是“递归／做事情” 交替进行)
+  >>> 递归调用是改变cur的field的值的, 所以是L.first, L.second, etc.
+  
+  ^^^^^^^^ 其实lee写的很直接: 每次递归就是:
+                                    1. 记录到当前node为止的mx和mn;
+                                    2. 更新当前的res;
+                                    3. res仍然更新,并且递归在这个里面: 
+           看起来写的简单,但是递归很难看懂各个顺序;     cuiaoxiang的更长的代码理解起来好理解一些
+  
  
