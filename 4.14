@@ -1,0 +1,6 @@
+contest: 
+
+1025. Divisor Game:  cuiaoxiang大佬用的是dp看状态转移, 其实我一开始也这样想了, 但是总感觉这种博弈论的题应该有别的办法;
+    果然, 简单办法: return N%2==0;
+    
+ 
