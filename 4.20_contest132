@@ -1,0 +1,26 @@
+一周没有刷题, 还是要刷题;
+
+contest 132: 
+1027. Longest Arithmetic Sequence:
+     
+     dp[diff][index]: 表示要求的sequence长度, 数列的差值是diff, 从index开始;
+     从前往后;
+     那么前面的从i开始的作为dp的初始, j循环从i+1开始每次在dp_i的基础上更新;
+     更新条件:
+     dp[d]作为一个map, 记录长度为d可以有哪些index开始的: 如果循环当前次: A[j]-A[i]
+     长度也是d了, 而且之前dp[d]中有i作为开始的index的记录, dp[d][j] = dp[d][i]+1;
+     否则i, j两个index相当于是第一次有这个长度的sequence, 长度赋值为2;
+    
+     内层循环每次dp都更新, 因为如果j走完了就只会有最后一次的结果: 是要每次都更新,所以
+     res更新在内层循环
+
+1028. Recover a Tree From Preorder traversal:
+      
+      huahua的分隔思路很好: 首先: getD(), getVal()都需要在 遍历s的时候获得: 
+      特别是getVal(), 因为多位数的时候直接判断"--"就不行了;
+      所以一个数字就应该全部取出来:碰到s中的数字就全部遍历完成;
+      
+      dfs方法中: depth是期待的深度, d是当前节点获取到的深度, 因为i是s的index,
+      得到d之后实际上是在s中向前了 "\- + \d"这个pattern: 向前了d这么多;
+      所以如果遍历s得到的当前“深度节点”组合的深度-->并不是期待的深度,说明这个branch的
+      存在的节点已经遍历完了, 所以实际上没有节点导致了真实深度和期待深度不同: null
