@@ -24,3 +24,24 @@ contest 132:
       得到d之后实际上是在s中向前了 "\- + \d"这个pattern: 向前了d这么多;
       所以如果遍历s得到的当前“深度节点”组合的深度-->并不是期待的深度,说明这个branch的
       存在的节点已经遍历完了, 所以实际上没有节点导致了真实深度和期待深度不同: null
+
+      ⚠️注意一下 pass-by-reference 的问题: 
+      int getD(const string& s, int& i) {
+         int d = 0;
+         while (i < s.length() && s[i] == '-') {++d; ++i;}
+         return d;
+       }
+       和
+       int getD(const string& s, int i) {
+         int d = 0;
+         while (i < s.length() && s[i] == '-') {++d; ++i;}
+         return d;
+       }
+       
+       while中的 ++i, 如果这个函数的参数列表中 i 是 int i, ++i产生了一个新的i的副本, 
+       之前的i是不变的, 只有在 int& i这种引用传递的时候每次改变i才是改变的是同一个i
+       
+       
+       
+       
+       
