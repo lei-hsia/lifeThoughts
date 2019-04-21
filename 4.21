@@ -1,0 +1,49 @@
+contest: 
+
+1029. Two City Scheduling:
+    是想到了sort, 但是当前pair和别的pair不论是到A还是B的距离sort都不好比较, 而且并不是一半一半，很麻烦;
+>>> 以到A和B的距离的差值sort: 从到A的距离比到B的距离小的最多的顺序排序: 这样就一定是左边一半去A,右边一半去B
+
+
+
+1030. Matrix Cells in Distance Order
+
+    *********** 非常典型的bfs加上伴随visited矩阵用queue解决的题目, 应该记下来 *************
+    1. bfs: 
+   ⚠️: 实际上还是有visited二维伴随矩阵: 标记当前的cell是否被visited过了; 
+   >>> 为什么也要一个标记数组? 
+   >>> 因为逐步检查的时候，可能当前cell已经之前别的cell往外扩散的时候访问过了, 那么此时就不用访问了;
+      bfs: 还是要用queue啊;
+          trivial: 
+              每个元素是<int, int>; 类型就是pair<int, int>; 一开始的组合要用make_pair(a,b);
+              std::pair 指明两个元素的类型;
+              std::make_pair() 生成pair
+              pair要得到前后两个元素: 用first, second两个字段
+   
+   cuiaoxiang: sort: 实际上是一种数据格式的转化;
+       1. 当前的矩阵上面所有的点构成的pair: 放在res中;
+       2. 自定义sort: 按Manhattan距离进行sort;
+       3. 初始化元素: vector<int>(2);  空的2个元素缺位的数组;
+
+^^^^^^^^^^上面两道题, 对sort的考察非常好
+
+1031. Maximum Sum of Two Non-Overlapping Subarrays: 
+
+     >>> 首先把数组的每个元素变为从开始到当前index位置的sum:
+                  因为是求一段的和, 那么本身元素就是求和得到的就好一些;
+         如果不一开始就变为求和得到的结果，那后面每一次都还要计算: O(n)变大了;
+         
+     lee215: 
+     都变成了连续求和得到的之后, L连续的, M连续的和: 都用最前面的L/M个数求和作为初始值;
+     然后一次for遍历迭代最大值(类似stocks max profit): 
+        1. 迭代Lmax的时候，是从M连续的block的右边界开始的: 这样保证了L个数的和不会和M的block重叠;
+            而且因为每个数都已经是连续求和了: 直接用index: A[i-M] - A[i-L-M] 得到每次要比较的Lmax;
+        2. 迭代Mmax也是一样的做法;
+     
+     
+     
+     
+     
+     
+     
+     
