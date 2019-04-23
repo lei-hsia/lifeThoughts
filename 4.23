@@ -1,0 +1,40 @@
+contest 133: 
+
+1031. Maximum Sum of Two Non-Overlapping Subarrays: 
+    
+    首先看到题跟huahua想的一样: 两个sliding window: 先确定L长度的window, 然后M长度的window在L的左边或者右边取;
+    >>>注意边界条件，越界etc.
+    
+    ⚠️⚠️注意: 这种连续元素求和, 最后求极值, 遍历到每个index都需要求和的题: 首先把array变为prefixSum array;
+    int lsum = s[i+L] - s[i]   // s[i]是被减掉了的:不包含; 所以就是L个数的和, 从A[i+1]~A[i+L] 
+    注意边界条件: 
+    (i-M-1): 因为对应的区间是[i-M, i-1],是不包含(i-M-1)这一位的;
+    (i+L):   也是作为被减的, 不包含当前这一位, 从(i+L+1)开始;
+    (n-M):   也是被减的, 实际区间是[n-M+1, n]; 所以计算的是(n-M);
+    
+    
+    lee: 
+                   // A[i-M] - A[i-M-L] 已经是Lmax向后移动一位得到的连续L个数的和了
+    Lmax = max(Lmax, A[i-M] - A[i-M-L]);  <----  连续的L个数是以A[i-M]为end的往前数L个数
+    res = max(res, max(Lmax + A[i] - A[i - M], ... <---连续M个数是以A[i-M]为begin往后数M个数;
+    所以肯定不重合;
+    A[i] - A[i - M]: 这个真的就是index为i开始往后数 M个数;
+    Lmax: 因为一直记录的是到 A[i-M]前面连续L个数的最大和: 所以是遍历了前面所有的, 并不是就是这个index往前M个数;
+    
+--------
+
+1032. Stream of Characters: (Trie) 非常陌生, 
+先做208.Implement Trie (Prefix Tree):
+      https://zxi.mytechroad.com/blog/data-structure/leetcode-208-implement-trie-prefix-tree/
+      
+      root都是空节点: 类似linkedlist的dummy节点，帮助遍历用的; Trie每个节点都是只有一个字母,
+      每个节点除了字母之外还带一个数字: 0/1: 如果是0表示没有以当前字母结尾的单词, 1表示有以当前字母结尾的单词;
+      
+      
+      
+      
+      
+      
+      
+      
+      
