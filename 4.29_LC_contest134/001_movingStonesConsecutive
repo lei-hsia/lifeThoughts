@@ -1,0 +1,12 @@
+>>> 直接用x, y, z记录a, b, c是不行的;
+
+>>> 解决方法1: 
+      把三个数放进一个vector, 然后sort这个vector;
+      
+    解决方法2: neal_wu
+      两两交换: 其实是比较三次: a&b, a&c, b&c; 
+      但是写出来是这样的: 
+      if (a > b) swap(a, b);
+      if (b > c) swap(b, c);
+      if (a > b) swap(a, b);
+      
