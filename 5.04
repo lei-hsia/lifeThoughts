@@ -1,0 +1,8 @@
+contest 134: 
+
+Coloring the Border: 
+还有一些地方需要注意的: 
+1. dfs的color的参数,是表示当前cell的参数; 所以主函数调用的时候传递的是grid[r0][c0]而不是color;
+    因为color是要染的颜色不是当前cell的颜色, 传递并没有用;
+2. dfs递归完了之后检查是不是内部的cell: x < grid.size()-1 ... 因为不用检查边界:不可能是内部;
+3. 主函数一上来就调用dfs函数, 因为要完成整个标记过程; 
