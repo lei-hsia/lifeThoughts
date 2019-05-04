@@ -9,3 +9,8 @@ Coloring the Border:
     同理, x > 0 而不是 x >= 0;  (如果相等会出现RuntimeError: AddressSanitizer)
     
 3. 主函数一上来就调用dfs函数, 因为要完成整个标记过程; 
+
+
+Uncrossed Lines: 
+其实就是相同的数字匹配; 连线与否实际上并不重要; 
+看有多少个可以配对的数字pair, 从前往后配对，实际上就是longest common subsequence
