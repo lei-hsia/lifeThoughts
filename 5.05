@@ -1,4 +1,4 @@
-contest 135: 1370/3603
+contest 135: 1370/3636
 
 1039. Minimum Score Triangulation of Polygon:
     dp[i][j]: minimum score to triangulate: A[i] - A[j];
@@ -12,3 +12,17 @@ contest 135: 1370/3603
    j从2到n: 因为前面至少要留2个点,所以从2开始;  到n不解释;
    i从j-2到0: j-2是最近的顶点，顺时针走一圈最远的顶点的index是0；
    k是确定的两个顶点之间的顶点; 
+
+
+1040. Moving Stones until Consercutive II: 
+    >>> 为什么想到是sliding window的解法? 
+    
+    lower bound: 
+    >>> 在上次的“3个stones”的情况下, 实际上可以换一种思路想: 不是focus石头而是focus连续的
+    能放stones的坑位, 找所有的连续3个坑位看这3个坑位中stones的分布: 如果遍历有一种情况3个坑
+    已经有3个stones那么最小移动步数是0，
+    3个坑已经有2个stones最小移动是1，1个stones最小是2
+    (是假设选定的就是这个连续坑位);
+    
+    >>> 推广到N个stones的情况:那么要找sliding window, 这个window内部有连续的N个坑位可以放
+    N个stones; 
