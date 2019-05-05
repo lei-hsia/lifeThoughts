@@ -1,0 +1,14 @@
+contest 135: 1370/3603
+
+1039. Minimum Score Triangulation of Polygon:
+    dp[i][j]: minimum score to triangulate: A[i] - A[j];
+    >>> 其中 A[i]和 A[j]两个顶点相连
+    i < k < j: 枚举所有i和j之间的k作为index对应的顶点;
+    
+   intuition: A[i]和A[j]作为两个顶点确定之后,一个三角形的edge就确定了;选择另外(n-2)个顶点中
+              的任意一个作为triangle的第三个顶点就可以form一个三角形; 这个三角形把polygon
+              分成了这个三角形和左右两边各一个polygon: polygon们有问题的substructure: dp
+              
+   j从2到n: 因为前面至少要留2个点,所以从2开始;  到n不解释;
+   i从j-2到0: j-2是最近的顶点，顺时针走一圈最远的顶点的index是0；
+   k是确定的两个顶点之间的顶点; 
