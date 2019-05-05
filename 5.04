@@ -16,3 +16,14 @@ contest 134:
 看有多少个可以配对的数字pair, 从前往后配对，实际上就是longest common subsequence
 >>> 为什么相当于是lcs? 因为subsequence虽然在A和B中可以跳字母, 但是仍然保留着A和B的所有
     字母的相对顺序: 这个跟uncrossed line本质上是相同的;
+
+
+
+contest 135: 
+三点共线的判断方法: A(ax, ay), B(bx, by), C(cx, cy): 
+算面积: AB向量 X BC向量 的结果: 
+       1/2 * [(ax-bx)*(ay-cy)-(bx-cx)*(ay-cy)] == 0: 表示三点共线;
+       
+BST to Greater Tree: 
+还是用一个helper函数, 主函数调helper函数, helper函数从right到left的方向遍历;
+right --> left 中间: sum += node->val; 记录到目前为止的节点之和;
