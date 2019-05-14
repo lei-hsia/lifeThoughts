@@ -4,5 +4,7 @@ I created this folder specifically for it.
 
 Back up code: don't think I'll need it.
 
-tweepy usage tutorial:
-http://docs.tweepy.org/en/v3.5.0/getting_started.html
+References:
+
+1. tweepy usage tutorial: http://docs.tweepy.org/en/v3.5.0/getting_started.html
+2. How to process textual data using TF-IDF in Python: https://medium.freecodecamp.org/how-to-process-textual-data-using-tf-idf-in-python-cd2bbc0a94a3
