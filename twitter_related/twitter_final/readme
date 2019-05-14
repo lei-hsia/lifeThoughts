@@ -1,0 +1,37 @@
+1. First of all, run the 'data.ipynb' file to crawl the twitter data, clean the data, and obtain the final training data set. 
+  It also contains part of the visualization.
+
+2. Execute this code to install the environment
+
+  **Note: If your runtime environment is configured, you don't need to execute this code.**
+
+  Operating environment configuration requirements are in requirements.txt
+
+  ```pip install -r requirements.txt```
+
+3. glove pre-trained word vector
+
+   Twitter Pre-train Glove word vector: <http://nlp.stanford.edu/data/glove.twitter.27B.zip>
+
+4. TextCNN--Convolutional Neural Networks for Sentence Classification
+   <https://arxiv.org/abs/1408.5882>
+
+5. DPCNN--Deep Pyramid Convolutional Neural Networks for Text Categorization(DPCNN)
+
+   http://www.aclweb.org/anthology/P17-1052
+
+6. Document description
+
+   data.ipynb -- Get Twitter data、clean data、analyze data、tag each tweet 
+
+   TFIDF+SVM-baseline.ipynb -- baseline algorithm(TFIDF+SMV)
+
+   Three_model_TextCNN_&_BiGRU & DPCNN.ipynb -- Three algorithms(TextCNN、DPCNN、BiGRU)
+
+   data.csv -- Cleaned and tagged data
+
+   data1.csv---data6.csv -- Raw data from twitter
+
+   nagative-words.txt -- Text containing negative words
+
+   positive-words.txt -- Text containing positive words
