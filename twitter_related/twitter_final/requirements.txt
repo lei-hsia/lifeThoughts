@@ -1,6 +1,6 @@
 tweepy==3.7.0
 nltk==3.3
-tensorflow的安装包删掉了, 因为github提示potential severity
+
 kears == 2.2.4
 python == 3.6.8
 gensim == 3.6.0
