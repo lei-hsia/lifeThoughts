@@ -1,0 +1,24 @@
+1043. Partition Array for Maximum Sum: 
+      dp[i]表示 A[0] - A[i] 的所求的maximum sum; 思考:怎么dp?
+      >> 假设前面的都算出来了, 那么总是最后面位置上面的变: 数组增大, e.g. 最后一位A[i]来了之后，
+      要看这个数被分到了哪一组，以及分了之后对前面的组的改变;
+      最后一组确定之后，用: (最后一组记录的最大数字curMax * 最后一组数字个数N) + 前面记录过的最大的总和dp[xxx],
+      得到整个数组max sum.
+  注意k遍历的过程, 最开始的时候i很小, k是要小于i的:>>因为i从0到(n-1),表示index, 对应的数字个数是i+1, 
+   所以实际上k的范围是k<=(i+1)而不是k<=i
+   >> relevant: 
+      Minimum Height Trees, Find Eventual Safe States, Flower Planting with no Adjacent
+      
+1044. Longest Duplicate Substring:
+      ???
+      
+      
+      
+1042.  Flower Planting With No Adjacent: 
+      >> Solution: Graph coloring, choose any available color
+      因为每个节点最多和3个节点相连, 而一共有4种颜色, 所以不管当前节点和别的节点怎么相连，一定是可以染色当前的节点的;
+      >> 做题思路: 随便选一个当前相连节点没有用掉的颜色，染色当前的节点就行了
+    >>> 为什么叫greedy? 因为相邻节点是用从左到右的数组表示的, 遍历完所有的相邻数组：greedy;
+        而上面“总有一个可以用的颜色”的证明表示这个greedy是✅的;
+        
+
