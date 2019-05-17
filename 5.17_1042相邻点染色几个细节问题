@@ -1,0 +1,19 @@
+1. 构建图G的时候: G.get(p[0] - 1).add(p[1] - 1);
+          而不是: G.get(p[0]).add(p[1]); 
+          
+      >> 因为后面res创建的时候
+      “where answer[i] is the type of flower planted in the (i+1)-th garden.”
+      所以在res中，第i个颜色实际上在(i-1)的位置上,所以本位点和相邻点都是减了1;
+      
+2. Colllections中只有List(ordered)和Set(unordered), 没有Map; << 复习collections
+
+3. colors对应res中每个点的相邻点染色情况, size为5, 因为对应的颜色1234想就用index 1234
+   作为点, 值0/1标记染色与否;
+   
+4. >>>
+    for (int j : G.get(i))
+         colors[res[j]] = 1;
+         
+   >>> 为什么是colors[res[j]] = 1, 而不是colors[j] = 1 ?
+   因为j可以很大: j表示遍历和当前i位置的节点相连的节点的index－1, colors[j]什么都不表示;
+   而res[j]是j位置的点的染色是1...4的情况, colors[1...4] = 1表示标记某个颜色用掉了
