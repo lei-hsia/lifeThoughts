@@ -21,4 +21,8 @@
     >>> 为什么叫greedy? 因为相邻节点是用从左到右的数组表示的, 遍历完所有的相邻数组：greedy;
         而上面“总有一个可以用的颜色”的证明表示这个greedy是✅的;
         
-
+      java的代码: 图用 Map<Integer, Set<Integer>> 表示的:
+      >> 原因:  1. 每个integer有一群integer和它相连, map表示映射, set表示相连的节点群;
+               2. 用的是set, 因为就是一个集合,没有order, 所以用set而不是list;
+               3. java Collections中有List和Set, 并没有Map;
+               4. Map是java中的另一种ds
