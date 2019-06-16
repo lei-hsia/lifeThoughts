@@ -1,0 +1,21 @@
+1090. Largest Values From Labels: (4.35-4.45': can't solve;
+                                   4.55懂; 5.37': all cleared)
+      >> 复习: map vs unordered_map: 一个的key是升序排列，一个的key是无序的;
+              map vs multimap: 一个的key只能出现一次，另一个的key可以重复;
+       
+      >> Greedy解法: 
+      1. 首先，肯定要sort，而如果sort了values之后labels就不能对应了, 那么首先要把values和labels对应起来:
+      
+      2. 考虑用multimap;
+          为什么用multimap不用unordered_map? 因为需要从大到小取values的每个value，multimap直接排序好了；
+               （其实看到这种一大堆相关对应的kv对，都要用map);
+          为什么用multimap不用map? 因为每个value作为key，是可以有重复值的;
+      multimap中的KV对，是value－label键值对，要用的是value，从大到小取，用迭代器遍历multimap的时候，
+      从rbegin()到rend()的顺序取;(不用end()到begin(), 因为rbegin是从最后一位指针开始，end是最后一位后面一个)
+      
+      3. 因为同一个label下，每个value取的数量不能超过 use_limit, 而用map记录之后已经打乱了顺序，所以
+         还要用另一个简单的unordered_map记录每个value用了多少次; 一旦达到了limit就不能取了;
+     >>> 
+      BUG:
+         1. multimap 是不支持indexing的, unordered_map是支持indexing的;
+         2. 用迭代器对map用rbegin()到rend()从后往前遍历, ++it是对的, --it是错的; 即使是从后往前
