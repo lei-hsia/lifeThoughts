@@ -1,0 +1,40 @@
+ApplicationRootController:
+    package intern.xxx.priceFinal.service.rest.web.controllers;
+    
+    import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+    import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
+    
+    import org.springframework.web.bind.annotation.GetMapping;
+    import org.springframework.web.bind.annotation.RequestMapping;
+    import org.springframework.web.bind.annotation.RestController;
+    import org.springframework.web.util.UriComponentBuilder;
+    
+    import intern.xxx.priceFinal.service.rest.app.resources.ApplicationRoot;
+    
+
+GetPriceController: 
+    package intern.xxx.priceFinal.service.rest.web.controllers;
+    
+    import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+    import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
+    
+    import org.springframework.web.bind.annotation.PathVariable;
+    import org.springframework.web.bind.annotation.RequestMapping;
+    import org.springframework.web.bind.annotation.RequestMethod;
+    import org.springframework.web.bind.annotation.RestController;
+    
+    import intern.xxx.priceFinal.service.rest.app.dal.GetPriceDao;
+    import intern.xxx.priceFinal.service.rest.app.resources.GetPrice;
+    
+ ===================================
+ 
+ why it's so easy to create links? 
+ Because of hateoas.
+ >> Spring HATEOAS provides some APIs to ease creating REST representations thtat follow the HATEOAS principle when working
+    with Spring and especially Spring MVC. The core problem it tries to address is link creation and representation assembly.
+    
+ ================================
+ 
+ ApplicationRootController class,
+ GetPriceController class: 
+ both are under the main > java > intern.xxx.....rest > web > controllers.
