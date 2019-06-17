@@ -1,0 +1,37 @@
+How MVC works: 
+1. request comes into ApplicationRootController: 
+
+      @XmlRootElement
+      public class ApplicationRoot extends ResourceSupport {}
+      
+      @RestController
+      @RequestMapping("/")
+      public class ApplicationRootController {   
+          @GetMapping
+          puiblic ApplicationRoot begin( final UriComponentsBuilder builder ) {
+              final ApplicationRoot appRoot = new ApplicationRoot();
+              appRoot.add( linkTo( methodOn( this.getClass() ).begin( builder ) ).withSelfRel() );  // in withRel(): does not matter
+              appRoot.add( linkTo( methodOn( GetPriceController.class ).getPrice( conid:null, date:null ) ).withRel("getPrice") );
+              return appRoot;
+          }
+      }
+  
+(code not included)
+
+2. ApplicationRootController: 1st controller (like a proxy);
+   GetPriceController: 2nd controller: called inside ApplicationRootController
+   
+      @RestController
+      @RequestMapping("/getprice")
+      public class GetPriceController {
+          
+          @Autowired
+          GetPriceDao dao;
+          
+          @RequestMapping(value="/conid/{conid}/date/{date}", method = RequestMethod.GET)
+          public GetPrice getPrice(@PathVariable Integer conid, @PathVariable Integer date) {
+              GetPrice g = new GetPrice( conid, date, dao.getprice(conid, date) );
+              g.add( linkTo( methodOn( this.getClass() ).getPrice( conid, date ) ).withSelfRef() );
+              return g;
+          }
+      }
