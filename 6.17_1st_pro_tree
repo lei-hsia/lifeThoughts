@@ -1,0 +1,45 @@
+Project:
+
+main
+  .idea
+  java
+      intern.xxx.price.service.rest
+          app
+             dal
+                GetPriceDao
+             resources
+                ApplicationRoot
+                GetPrice
+             ConfigForApplication
+          web
+             controllers
+                ApplicationRootController
+                GetPriceController
+             init
+                WebAppInitializer
+             ConfigForWebLayer
+  javadoc
+  resources
+      META-INF
+          spring
+              intern.xxx.priceFinal.service.rest-queries.xml
+  webapp
+  main.iml
+
+test
+  .idea
+  java 
+     intern.xxx.priceFinal.service.rest.web.controllers
+        ApplicationRootControllerTest
+        PriceControllerTest
+  test.iml
+.gitignore
+build.xml
+ivy.xml
+
+>> above project is useless, because of the following: 
+External Libraries
+    < 1.7 > /usr/lib/jvm/java-1.7.0
+    PriceControllerTest 
+ 
+ external are private .jar s
