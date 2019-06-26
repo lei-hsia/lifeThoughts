@@ -1,0 +1,78 @@
+Kafka/Zookeeper: Prometheus support to record stats   (from my Confluence page)
+  
+>> Make sure Zookeeper and Kafka are running first
+ 
+    1. get kafka_2.11-2.0.0.tgz (or kafka_2.12-2.0.0.tgz), decompress the file. Say, if this file is under directory:
+       /home/users/Xlxia/kafka_2.11-2.0.0.
+    2. Go to /home/users/Xlxia/kafka_2.11-2.0.0/config
+    3. Modify dataDir in zookeeper.properties, cd .. and start zookeeper: bin/zookeeper-server-start.sh config/zookeeper.properties.
+       or just stay in config/ and: zookeeper-server-start.sh ../config/zookeeper.proerties.
+       If successfully running, you should see "INFO binding to port 0.0.0.0/0.0.0.0:2181" at the log bottom.
+    4. Modify dataDir in server.properties, then start kafka: kafka-server-start.sh ../config/server.properties.
+       If successfully running, you should see "INFO KafkaServer id=0 started" at the bottom.
+       
+ 
+ 
+ >> Attach JMX Exporter agent on ZK/Kafka brokers
+    
+     Two files, zookeeper.yml and kafka.yml are needed on local machine that holds ZK/kafka (in my case, Prometheus is on a remote server
+     machine which is beyond my control). These two files are to make sure that all metrics desired would be exported to Prometheus
+     via JMX from ZK and Kafka.
+     zookeeper.yml could be found here: https://github.com/prometheus/jmx_exporter/blob/master/example_configs/zookeeper.yaml
+     kafka-0-8-2.yml can be found here: https://github.com/prometheus/jmx_exporter/blob/master/example_configs/kafka-0-8-2.yml
+     The JMX agent can be downloaded from: https://github.com/prometheus/jmx_exporter
+     
+     Then creating a directory jmx_exporter. Put jmx_prometheus_javaagent-0.11.0.jar, kafka-0-8-2.yml and zookeeper.yml
+     all under this directory. Then: 
+          1. Add following lines at the top in zookeeper-server-start.sh file. This is going to run java agent option, pointing
+             jmx prometheus javaagent to location $JMX_DIR/zookeeper.yml. Port for ZK is 7070 here.
+                 {code}
+                    JMX_DIR="/honm/users/Xlxia/jmx_exporter
+                    export EXTRA_ARGS=" -javaagent:$JMX_DIR/jmx_prometheus_javaagent-0.11.0.jar=7070:$JMX_DIR/zookeeper.yml"
+                 {/code}
+           2. Add these following lines at the top in kafka-server-start.sh file. Port for Kafka is 7071.
+                 {code}
+                    JMX_DIR="/honm/users/Xlxia/jmx_exporter
+                    export KAFKA_OPTS=" $KAFKA_OPTS -javaagent:$JMX_DIR/jmx_prometheus_javaagent-0.11.0.jar=7071:$JMX_DIR/kafka-0-8-2.yml"
+                 {/code}
+      
+      Restart zookeeper and kafka.Use: 
+              curl localhost:7070, curl localhost:7071
+      to test if you can get metrics from zookeeper and kafka.
+      
+>> Config Prometheus for local Zookeeper and Kafka
+    
+    1. Curl from Prometheus machine to make sure that it can ping ZK and Kafka.
+    2. Edit prometheus.yml. In config file, scrape_configs is the way to specify metrics from wherever you want. To scrape metric
+       from ZK and kafka, add these two tasks in targets:
+           {code}
+                global:
+                    scrape_interval: 10s
+                    evaluation_interval: 10s
+                scrape_configs:
+                    - job_name: 'kafka'
+                      static_configs:
+                          - targets:
+                              - 131.216.216.101:7071  # kafka ip, customize for your use
+                    - job_name: 'zookeeper'
+                      static_configs:
+                          - targets:
+                              - 131.216.216.101:7070
+           {/code}
+      This should be done on remote Prometheus server, not my machine.Once done, data could go through Prometheus and show on
+      Grafana dashboard on local machine.
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
