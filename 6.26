@@ -66,13 +66,10 @@ Kafka/Zookeeper: Prometheus support to record stats   (from my Confluence page)
       
       
       
+ ==================
+ Monitor Kafka(resources): https://docs.confluent.io/3.3.0/kafka/monitoring.html
       
-      
-      
-      
-      
-      
-      
-      
-      
-      
+ Eric: record certain metrics in a way that Prometheus can query it. Some useful info:
+      1. Total uploaded size(or bandwidth used) << Kafka/Consumer?
+      2. # errors(exceptions thrown) << ZK/Kafka?
+      3. Unsent file size(this is most important) << Producer
