@@ -1,0 +1,20 @@
+1. sudo systemctl daemon-reload: 
+    man systemctl says: "
+        daemon-reload: would reload systemd manager configuration. This will rerun all generators, 
+    reload all unit files, and recreate the entire dependency tree. While daemon is being reloaded, all sockets
+    systemd listens on behalf of user configuration will stay accessible."
+  >>
+   It's a soft reload: take changed configurations from filesystem and regenerate dependency trees.
+
+    Consequently, systemd.generator states: 
+        "Generators are small binaries that live in /usr/lib/systemd/user-generators/ and other directories listed 
+         above. systemd(1) will execute those binaries very early at bootup and at configuration reload time ---
+         before unit files are loaded. Generators can dynamically generate unit files or crate symbolic links to unit 
+         files to add additional denpendencies, thus extending or overriding existing definitions.
+         
+>>> Use Systemctl to manage Systemd Services and Units: 
+            (https://www.digitalocean.com/community/tutorials/how-to-use-systemctl-to-manage-systemd-services-and-units)
+    
+    Systemd is an init system/system manager that is widely becoming the new standard for Linux machines.
+    
+    >>> (not finished; 次回)
