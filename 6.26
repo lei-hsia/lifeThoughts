@@ -73,3 +73,8 @@ Kafka/Zookeeper: Prometheus support to record stats   (from my Confluence page)
       1. Total uploaded size(or bandwidth used) << Kafka/Consumer?
       2. # errors(exceptions thrown) << ZK/Kafka?
       3. Unsent file size(this is most important) << Producer
+      
+  >> Kakfa metrics references: https://www.datadoghq.com/blog/monitoring-kafka-performance-metrics/#broker-metrics
+     ZK: ...
+     
+     Set Alert && other things on Grafana: https://www.youtube.com/watch?v=j8CVsUEH1V4
