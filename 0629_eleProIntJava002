@@ -1,0 +1,20 @@
+Algorithm patterns:
+
+1. Analysis principle: 
+    
+    1. Concrete examples: Manually solve concrete instances of problems and build a general solution
+    2. Case analysis: split input/execution into a number of cases and solve each case in isolation
+    3. Iterative refinement: Most problems can be solved by brute-force. 
+                          Find such a solution and improve
+    4. Reduction: use a well-known solutin to some other problem as a subroutine
+    5. Graph modeling
+    
+  
+2. Technique: 
+    
+    1. Sorting
+    2. Recursion
+    3. Divide and conquer
+    4. DP
+    5. Greedy
+   
