@@ -1,0 +1,24 @@
+读书: Elements of Programming Interview in Java(2016):
+    interview problem:
+     
+    stock, 先buy再sell,总是在starting price操作: 
+1. brute-force, nested for loop;
+2. divide-and-conquer, 两段array分别求最大利润，再combine/ min出现在第一个array，max出现在第二个array;
+    还有一些corner cases讨论;
+3. >>> 
+   思想: 给定一个sell时的日期，那么到目前位置为止，Max profit = max(cur-min, record_max-min);
+   这个
+3. >>> 思想: 给定一个sell时的日期，那么到目前位置为止，Max profit = max(cur-min, record_max-min),
+    这个方法，一遍遍历array, 两个变量: 记录历史出现的最小price，和recorded的最大利润;
+   time complexity = O(n);
+
+---
+chapters on concurrency && system design require knowledge of locks, distributed 
+systems, OS and insight into commonly used applications.
+DP, graphs, Greedy is geared towards graduate degrees.
+
+heap: PQ, based on binary tree. A heap resembles a queue, w. one difference: each 
+elements has a priority associated with it, deletion removes the element with the 
+highest priority.
+---------------------
+
