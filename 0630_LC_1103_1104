@@ -38,3 +38,12 @@
     
     for循环是对label折半的操作，因为label/=2对label是1的时候也适用，所以1并不作为特殊情况
 
+java version:
+        List<Integer> res = new ArrayList<Integer>(); // 底层是list, 并不声明size;
+        ...
+        res.add(0, label); // add到最前面的位置
+        label = (1<<depth)-1 + (1<<(depth-1)) - label;
+
+
+
+
