@@ -1,3 +1,0 @@
-1105. 实际上就是，在width不超过shelf_width的前提下, 考虑height的增加值;
-      并不是greedy, 因为图中greedy会把2放在第一层: dp
-      

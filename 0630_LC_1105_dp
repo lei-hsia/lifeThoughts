@@ -1,0 +1,34 @@
+1105. 实际上就是，在width不超过shelf_width的前提下, 考虑height的增加值;
+      并不是greedy, 因为图中greedy会把2放在第一层: dp
+      .>> 另外: 这又是A.操作数组; B.求min/max: 一看就dp
+      
+      dp数组: 要求什么这个数组就表示什么: dp的1*n数组表示n本书需要的min height;
+      Discuss java 解法: 
+      分两种情况讨论: 
+         A. 当前的书新放一层;
+         B. 当前的书放在前面的层级上, j从i-1遍历到1, dp[j]包含了前面所有的可能性,并不关心 
+            dp[j]是怎么出来的, 当前新的书作为dp[j]的incremental book.
+            内层for循环中, height = max(height, dp[j-1][1]), 因为j要遍历, 所以这里的
+            dp[j-1][1]就包含了前面所有的高度的可能性
+            
+          // width + books[j-1][0] <= shelf_width: 只有放了这本书之后还是小于书架的宽度情况下才能真的放书
+          for (int j = i - 1; j > 0 && width + books[j-1][0] <= shelf_width; --j) {
+                height = Math.max(height, books[j-1][1]);
+                width += books[j-1][0]; // 真的放书, 然后继续放书，直到不能放了就不用这层的dp了,换别的层
+                dp[i] = Math.min(dp[i], dp[j-1] + height); 
+            }
+            
+   LC1105:
+                  Partition Equal Subset Sum;
+                  Predict the winner;
+                  Find the Shortest Superstring;
+                  Min cost climbing stairs;
+                  Numbers with same consucutive differences;
+            
+     dp可以作为训练的题;
+            
+-----------
+1103.(补充): 用一个count变量代表每次的candy数量; 遍历数组res对应的位置数量++, candy--, 
+      for循环遍历外面用一个while(candy > 0) 包起来，就OK
+-----------
+
