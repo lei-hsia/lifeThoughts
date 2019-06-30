@@ -1,0 +1,40 @@
+1103. Distribute Candies to People: 
+    总之就是灵活运用循环, for的条件中并不一定是一定要是i满足xxx条件, 比如这里第二个条件应该就是
+    c > 0, 才能继续往下进行循环，而每次要完成循环体内的操作之后 c -= ++i;
+    
+    另外，index的迭代: i不断增加，但是循环是有规律地从array的头到尾: res[i % num]; 用module
+    
+    for (int i=0; c > 0; c -= i) {
+            res[i % num] += Math.min(c, ++i);
+    } // 循环体中自增
+    
+    for (int i=0; c > 0; c -= ++i) {
+            res[i % num] += Math.min(c, i+1);
+    } // 循环条件中自增 
+  
+   因为i是index，而真正的值是从1开始, 所以每次给array的某个cell赋值的时候，都要i+1;但是是min中判断
+   i+1,还是++i这样真的加1，一次循环中只能加1次
+   
+
+1104. （ 我写的思路我觉得是对的，但是为什么address buffer overflow? )
+（我写的也attached了, code和思路) 
+    Discuss里面的人的思路: 因为层数是奇偶交替的，所以实际上并不需要分类讨论，因为奇上面就是偶，偶上面是奇
+       关键📴: 
+            看当前层有没有固定值: 有!
+            当前层的最小值: 2^(level-1), 最大值: 2^level -1, 两者的和，等于本来的值和要交换的值的和
+            >>.>>.>>.: 这个每层相同的操作的思路比分奇偶讨论好
+            
+    附: 1. x<<y: 等价于 x * (2^y)
+        2. for循环中label的条件是label>=1; 后面做的操作是往上走一层: label/2, --depth
+  >>> 细微之处: 
+        // while (label > 0) {
+        //     label = label / 2;
+        //     depth++;
+        // }
+  >>> while (1 << depth <= label) ++depth;  // 这样没有改变label的值,上面的while改变了label的值
+    本质上并没有区别: depth每次乘以2/label每次除以2的区别: 本质上是相同的
+   另外: 
+        1 << x; 和 pow(2, x): 算出来的结果是相同的, 但是位运算快很多，因为直接操作底层对应的bytes
+    
+
+
