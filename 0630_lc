@@ -1,0 +1,20 @@
+1103. Distribute Candies to People: 
+    总之就是灵活运用循环, for的条件中并不一定是一定要是i满足xxx条件, 比如这里第二个条件应该就是
+    c > 0, 才能继续往下进行循环，而每次要完成循环体内的操作之后 c -= ++i;
+    
+    另外，index的迭代: i不断增加，但是循环是有规律地从array的头到尾: res[i % num]; 用module
+    
+    for (int i=0; c > 0; c -= i) {
+            res[i % num] += Math.min(c, ++i);
+    } // 循环体中自增
+    
+    for (int i=0; c > 0; c -= ++i) {
+            res[i % num] += Math.min(c, i+1);
+    } // 循环条件中自增 
+  
+   因为i是index，而真正的值是从1开始, 所以每次给array的某个cell赋值的时候，都要i+1;但是是min中判断
+   i+1,还是++i这样真的加1，一次循环中只能加1次
+   
+
+1104. （ 我写的思路我觉得是对的，但是为什么address buffer overflow? )
+（我写的也attached了, code和思路) 
