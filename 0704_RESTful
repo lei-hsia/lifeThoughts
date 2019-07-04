@@ -1,0 +1,24 @@
+elasticsearch中curl遇到的POST和PUT的区别: 
+        其实正如PUT的名字解释的那样: PUT是刷新某个URI, POST是提交之后创建某个URI,  所以PUT是idempotent, POST不是idempotent;
+                        
+        e.g. 举个例子，在我们的支付系统中，一个api的功能是创建收款金额二维码，它和金额相关，
+              每个用户可以有多个二维码，如果连续调用则会创建新的二维码，这个时候就用POST
+              
+             还是那个例子，用户的账户二维码只和用户关联，而且是一一对应的关系，
+             此时这个api就可以用PUT，因为每次调用它，都将刷新用户账户二维码 
+             
+     >>> (https://my.oschina.net/u/1263964/blog/268932)
+     
+  PUT: shall not cache results;
+  POST: cannot cache;
+  
+  PUT: for UPDATE;
+  POST: for CREATE;
+  
+  --- e.g. 
+  GET 	/device-management/devices : Get all devices
+  POST 	/device-management/devices : Create a new device
+
+  GET 	/device-management/devices/{id} : Get the device information identified by "id"
+  PUT 	/device-management/devices/{id} : Update the device information identified by "id"
+  DELETE	/device-management/devices/{id} : Delete device by "id"
