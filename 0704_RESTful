@@ -22,3 +22,5 @@ elasticsearch中curl遇到的POST和PUT的区别:
   GET 	/device-management/devices/{id} : Get the device information identified by "id"
   PUT 	/device-management/devices/{id} : Update the device information identified by "id"
   DELETE	/device-management/devices/{id} : Delete device by "id"
+
+>>> 各种guide: https://restfulapi.net/hateoas/
