@@ -24,3 +24,23 @@ elasticsearch中curl遇到的POST和PUT的区别:
   DELETE	/device-management/devices/{id} : Delete device by "id"
 
 >>> 各种guide: https://restfulapi.net/hateoas/
+
+REST 6大规范: 
+         1. Client-server
+         2. Stateless
+         3. Cacheable
+         4. Uniform interface
+         5. Layered system
+         6. Code on demand
+  
+  REST != HTTP
+you are honoring the 6 guiding principles of REST, you can call your interface RESTful.
+
+>> REST && HTTP: 
+In simplest words, in the REST architectural style, data && functionality are considered
+resources and are accessed using URIs. The resources are acted upon by using a set of 
+simple, well-defined operations. The client adn servers exchange representations of 
+resources by using a standardized interface and protocol -- typically HTTP.
+
+
+
