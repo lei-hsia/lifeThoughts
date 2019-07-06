@@ -1,0 +1,8 @@
+pandas: 
+    pd.Series(data=xxx, labels=yyy); 和np.array不同的地方在于np.array是类似一个高效数组, Series是类似一个dict, label是key
+    pd.DataFrame(randn(5,4), ['A','B','C','D','E'], ['W','X','Y','Z']):
+        each column in dataframe is a series
+        
+      ... 
+      seen: http://localhost:8888/notebooks/Desktop/ds/Untitled.ipynb?kernel_name=python3
+      ~ ~ related ds files in folder
