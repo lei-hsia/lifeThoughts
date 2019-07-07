@@ -1,0 +1,22 @@
+[threaded tree]
+1109. Corporate Flight Bookings: 
+    >>> 要不出现TLE: 每一位上面的加: 因为前面都是相同的操作: 不要重复地加了, 每次只加diff;
+        也就是后面的index上面的数值要用到前面加得到的结果: running sum; (线段树/threaded tree);
+        e.g. [2,5,20]: 那么diff数组从index是1开始到index是4都是+20: 只用把线段初始位置标记+20就行了,后面都加前面的数字(都是0,因为没有标记);
+             一直到index=4的位置; 那么diff数组后面一位要标记为-20把后续所有的数还原消除这个+20的影响;
+        这个diff数组可以作为单独的;
+        或者直接作为res数组,从前往后加,i<n, 最后一位要pop.back()因为diff数组一开始初始化大小是(n+1).
+     >> 类似: H-IndexII; K Empty Slots; Smallest Subsequence of Distinct Characters
+     >> java: return Arrays.copyOf(res, n);
+     
+1110. Delete Nodes And Return Forest
+      观察非常重要:
+        1. 如果当前节点有左子节点/右子节点, 而且这些子节点要被删掉: 子节点=NULL;
+        2. 如果节点的父节点被删掉了: 没有父节点了: 成了单独的一个: 作为单独的树要加入roots;
+        3. 是不是叶子节点实际上并不重要;
+        4. 特别是observation 1 & 2: 不同的情况处理方式是不同的，并不是都是直接赋值为NULL就行了
+     >> c++: std::find(begin(xx), end(xx), val)返回一个iterator;
+    >>> java版本的要写;
+
+1111. Maximum Nesting Depth of Two Valid Parentheses Strings
+    
