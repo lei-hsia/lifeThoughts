@@ -1,1 +1,5 @@
 1111. Maximum Nesting Depth of Two Valid Parentheses Strings
+
+    其实是得到最大深度, 然后对半分，一半给A一半给B, 这样 max(dep(A), dep(B))就能最小;
+    
+    level数组记录的时候, 注意: ( 就+1; )保持跟前面的(相同赋值给res, 然后才-1;
