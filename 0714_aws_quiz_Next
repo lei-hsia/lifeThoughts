@@ -1,0 +1,23 @@
+In very simple terms, what is the "cloud"?
+The "cloud" is made up of computers owned by people/organization that lease usage of those computers to others.
+
+AWS is a cloud services provider.
+
+S3 is a storage service, not a database service. : 其实storage和db的区别很大在于能不能query:因为data是结构化/非结构化的
+
+EC2 is not a database or storage service. Also, on-premise server computers are not a part of AWS.
+EC2 is a virtual computer primarily used for its processing power.
+
+A VPC can be described as your own "private section" of AWS.
+
+Scalability is the ability to increase in size as demand increases. 
+Elasticity is term commonly used to describe the ability to both grow AND shrink based on demand.
+
+AWS regions are groupings of AWS data centers and availability zones that are spread out across the globe.
+Each Region is a separate geographic area. Each Region has multiple, isolated locations known as Availability Zones.
+
+An availability zone is a logical data center
+
+--------------
+AWS Concepts --> AWS Essentials --> AWS Certified Solution Architect(associate)
+                (Project Omega)    (Project Orion; AWS CSA)
