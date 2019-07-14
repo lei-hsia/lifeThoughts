@@ -5,4 +5,13 @@ LC 1122. Relative Sort Array实际上有更好的解决办法;
 
 udemy上面的课程: AWS Concepts: 
             
-            VPC, Amazon S3, Amazon EC2, Amazon RDS
+            VPC, 
+            Amazon S3, 
+            Amazon EC2, 
+            Amazon RDS
+
+4特点 : 
+high availability && fault-tolerant;
+scalability && elasticity
+
+
