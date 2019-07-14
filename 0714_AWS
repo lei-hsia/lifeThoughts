@@ -9,9 +9,47 @@ udemy上面的课程: AWS Concepts:
             Amazon S3, 
             Amazon EC2, 
             Amazon RDS
-
+            
+   VPC: Virtual Private Cloud: is your private section of AWS, where you can place AWS resources,
+                               and allow/restrict access to them. (Like Your HomePage of Facebook)
+                               
+   Amazon EC2(Elastic Computing): 
+          实际上是一个server/instance, **** instance = EC2 server****; server <- computer: consists of :
+          CPU(processing power), OS(Linux/win), Hard Drive(local storage), Network Card(Internet),
+          Firewall(security), RAM
+       You: Netflix: --> essentially: accessing Amazon EC2; EC2: as a web-hosting server;
+       EC2: think EC2 as a virtual computer that you can use for whatever you like;
+       
+   Amazon RDS: is AWS provisioned database service. Commonly used for things like storing customer
+               account information and cataloging inventory
+   Amazon S3: A massive storage bucket.    
+   
+>>>>> Amazon EC2: Common Use: web-hosting: good for any type of "processing" activity;
+                        e.g. Netflix: "Play": EC2的code从S3中拿到那个episode的资源, encoding/transcoding back to user;
+                        这个encoding/transcoding的过程是非常消耗资源的,所以是EC2执行的
+>>>>> Amazon RDS: Common Use: Customer account info; Inventory catalog
+>>>>> Amazon S3:  Common Use: Mass Storage, Long-term storage: 长时间储存的file不应该放在EC2上面, 因为可能上/下线
+                              很可能就切换了EC2: 就不能access那个file了
+            
+***********
+AWS S3和RDS的区别: 
+S3 is a data storage and DDB is a database, which implies that S3 incorporates no restriction 
+on data being stored, whereas in DDB one can enforce a logical check on data. 
+There is no such thing as query in S3, you can perform requests, which will provide 
+only simple operations, you can't perform any request based on the data itself.
+***********
 4特点 : 
-high availability && fault-tolerant;
-scalability && elasticity
+high availability && fault-tolerant: e.g. 因为EC2能scale, www.netflix.com总是能访问: high available; 
+                                          如果一个instance crash: 用户能在aws中自己connect另一个instance,
+                                          instance好了之后再回来: fault tolerant;
+                                          
+scalability && elasticity: 前面的是快速增加，后面的一般指快速减少; e.g. netflix的使用人数快速增加/减少
+
+Global infra: 11 current running AWS Region: e.g. N. Virginia: this AWS region has 3 AWS Availability Zone;
+每个Availability Zone都有自己的data center; 不过都是在相互vicinity的地方，这是为了预防natural disaster带来的不可预见的
+不可抗力的损失, etc. 只要不是knock out ENTIRE REGION, 这个region的infra就还是可用的: high-availability
+
+your infrastructure for your VPC has to be in the same region: 所以一个infra的完整的VPC有完整成套的EC2,RDS和S3
+
 
 
