@@ -1,0 +1,32 @@
+早上: <<REST API>>书;
+下午: lc上个星期所有题目搞定;
+
+>>> 看所有的视频(U): React.js   spring REST  
+
+--------- lc
+1124. Longest Well-Performing Interval: 
+本质: 1. 若到当前位置连续和sum是正数:整个数组就满足条件; 2. 若sum<=0, 那么从头开始整个数组不满足条件; 
+此时希望找到最前面前缀和为sum-1对应的index i, 那么从i+1开始到当前位置就是longest subarray;此时子数组的元素和也就是1.
+
+sum-x并不需要关心, 因为如果是最长子数组, 子数组的和一定是1, 所以只用关心sum-1.
+>>>>>>本质是: 前缀和
+java: map的用法:
+        else {
+            seen.putIfAbsent(score, i);
+            if (seen.containsKey(score - 1))
+                res = Math.max(res, i - seen.get(score - 1));
+        }
+        
+ 
+1123. Lowest Common Ancestor of Deepest Leaves: 
+    格式: 无脑递归;
+    主函数直接call helper函数; 
+    helper函数中:
+          1. root为空: return NULL
+          2. root的子节点递归调用helper，有返回值
+          3. 递归中要求的处理
+          4. 主函数中运行helper函数
+          
+关键:
+1. 哪一边深就往那个方向下去，对应的节点是那个方向的子节点；
+2. 如果一样深，递归调用return的深度还是要加1；
