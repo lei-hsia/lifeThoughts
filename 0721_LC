@@ -1,0 +1,53 @@
+1128. Number of Equivalent Domino Pairs
+    1. 因为顺序用customized sort不好搞，就不要管顺序了，用map, map会自动sort;
+    2. res += freq[make_pair(d[0], d[1])]++;: 注意是+=, 所以res只会一直增大;
+    3. freq[make_pair(d[0], d[1])]是先赋值给res, 再自增
+    4. 有n个相邻相同的pair, 对应的res是1+2+...+n, 刚好对应freq逐渐增大的数加给res
+    
+>>> Google的Foobar;
+
+1131. Maximum of Absolute Value Expression
+      
+      将按索引顺序遍历数组，那么 |i - j|实际就是(i - j)
+      |a1 - b1| + |a2 - b2| + (i - j)可以写成以下4个算式的最大值：
+          (a1-b1) + (a2-b2) + (i-j)
+          (a1-b1) + (b2-a2) + (i-j)
+          (b1-a1) + (a2-b2) + (i-j)
+          (b1-a1) + (b2-a2) + (i-j)
+      也可以写成:
+          (+a1+a2+i) - (+b1+b2+j)
+          (+a1-a2+i) - (+b1-b2+j)
+          (-a1+a2+i) - (-b1+b2+j)
+          (-a1-a2+i) - (-b1-b2+j)
+      >> 遍历4种情况，取最大值
+      
+      // 对的: 因为是 (+i-j), 所以res对应的index是加，中间变量对应的是减 
+      for (int i = 0; i < n; i++) {
+            answer = max(answer, best1 + arr1[i] + arr2[i] + i);
+            answer = max(answer, best2 - arr1[i] + arr2[i] + i);
+            answer = max(answer, best3 + arr1[i] - arr2[i] + i);
+            answer = max(answer, best4 - arr1[i] - arr2[i] + i);
+
+            best1 = max(best1, -arr1[i] - arr2[i] - i);
+            best2 = max(best2, arr1[i] - arr2[i] - i);
+            best3 = max(best3, -arr1[i] + arr2[i] - i);
+            best4 = max(best4, arr1[i] + arr2[i] - i);
+        }
+
+      // 错的
+      for (int i=0; i<n; ++i) {
+            best1 = max(best1, arr1[i] + arr2[i] + i);
+            best2 = max(best2, arr1[i] - arr2[i] + i);
+            best3 = max(best3, - arr1[i] + arr2[i] + i);
+            best4 = max(best4, - arr1[i] - arr2[i] + i);
+            
+            res = max(res, best1 - arr1[i] - arr2[i] - i);
+            res = max(res, best2 - arr1[i] + arr2[i] - i);
+            res = max(res, best3 + arr1[i] - arr2[i] - i);
+            res = max(res, best4 + arr1[i] + arr2[i] - i);
+        }
+      
+      
+      
+      
+      
