@@ -1,7 +1,15 @@
 tweepy==3.7.0
-nltk==3.4
+nltk==3.4.5 
 
 kears == 2.2.4
 python == 3.6.8
 gensim == 3.6.0
 scikit-learn  == 0.20.0
+
+
+From Github: 
+CVE-2019-14751 More information
+moderate severity
+Vulnerable versions: < 3.4.5
+Patched version: 3.4.5
+NLTK Downloader before 3.4.5 is vulnerable to a directory traversal, allowing attackers to write arbitrary files via a ../ (dot dot slash) in an NLTK package (ZIP archive) that is mishandled during extraction.
