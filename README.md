@@ -14,11 +14,14 @@
 痛みを知れ<br>
 痛みを知らぬ者(もの)に　本当の平和はわからん。
 
+```
 ここより
 世界に痛みを
 神罗天征
+```
 
-2020 招聘
+
+### 2020 招聘
 
 ## Open Applications
 | Company | Position | Location | Link |
