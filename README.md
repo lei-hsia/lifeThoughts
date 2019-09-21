@@ -18,17 +18,7 @@
 世界に痛みを
 神罗天征
 
-
-# new-grads-2020
-A collection of new grad roles for 2020.
-
-## Contributing
-1. Fork repo
-1. Edit README.md
-    1. Keep the list alphabetical by company
-1. Create PR
-1. ????
-1. Profit
+2020 招聘
 
 ## Open Applications
 | Company | Position | Location | Link |
